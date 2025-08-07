@@ -16,9 +16,9 @@ export default function AdminDashboardNav() {
   const location = useLocation();
 
   const navItems = [
-    { path: '/AdminDashboard', icon: FiBarChart2, label: 'Dashboard' },
-    { path: '/admin', icon: FiUsers, label: 'Users' },
-    { path: '/NewCoupon', icon: FiGift, label: 'Coupons' },
+    { path: '/', icon: FiBarChart2, label: 'Dashboard' },
+    { path: '/user-list', icon: FiUsers, label: 'Users' },
+    { path: '/new-coupon', icon: FiGift, label: 'Coupons' },
     { path: '/NewsForm', icon: FiEdit3, label: 'News' }
   ];
 

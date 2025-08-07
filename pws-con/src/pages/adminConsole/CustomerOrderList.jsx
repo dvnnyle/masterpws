@@ -5,7 +5,7 @@ import { useParams, Link } from 'react-router-dom';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { FiCheckCircle, FiXCircle, FiClock, FiRefreshCw, FiArrowLeft } from 'react-icons/fi';
-// import AdminDashboardNav from './AdminDashboardNav'; // Uncomment if you move this component too
+import AdminDashboardNav from '../comps/AdminDashboardNav';
 import '../styles/CustomerOrderList.css';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
@@ -311,7 +311,9 @@ export default function CustomerOrderList() {
   }
 
   return (
-    <div className="customer-orders-container">
+    <>
+      <AdminDashboardNav />
+      <div className="customer-orders-container">
       {/* Header */}
       <div className="customer-orders-header">
         <div>
@@ -628,5 +630,6 @@ export default function CustomerOrderList() {
         </div>
       )}
     </div>
+    </>
   );
 }

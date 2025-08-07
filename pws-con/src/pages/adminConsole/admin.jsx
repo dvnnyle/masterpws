@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
+import AdminDashboardNav from '../comps/AdminDashboardNav';
 import { 
   FiUsers, 
   FiShoppingCart, 
@@ -237,6 +238,7 @@ export default function AdminDashboard() {
 
   return (
     <>
+      <AdminDashboardNav />
       <div className="admin-dashboard">
         {/* Header */}
         <div className="admin-header">

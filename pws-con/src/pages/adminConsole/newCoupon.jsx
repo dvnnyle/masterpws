@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./newCoupon.css";
 import { collection, setDoc, getDocs, deleteDoc, doc, serverTimestamp, getDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 import { FaGift } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import AdminDashboardNav from '../comps/AdminDashboardNav';
 
 function NewCoupon() {
   const [coupons, setCoupons] = useState([]);
@@ -19,13 +20,6 @@ function NewCoupon() {
   const [couponsUsedMap, setCouponsUsedMap] = useState({});
   const [allTimeCouponsUsed, setAllTimeCouponsUsed] = useState(0);
   const navigate = useNavigate();
-
-  // Protect route: Only allow access if logged in as admin
-  useEffect(() => {
-    if (localStorage.getItem("isAdminLoggedIn") !== "true") {
-      navigate("/adminlogin");
-    }
-  }, [navigate]);
 
   useEffect(() => {
     async function fetchCoupons() {
@@ -140,6 +134,7 @@ function NewCoupon() {
 
   return (
     <>
+      <AdminDashboardNav />
       <div className="admin-top-card">
         <h1 className="admin-top-card-title">Adminpanel</h1>
       </div>

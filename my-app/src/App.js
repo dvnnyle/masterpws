@@ -22,9 +22,6 @@ import Support from "./user/SettingsTabs/Support";
 import Orders from "./user/SettingsTabs/Orders";
 import Coupons from "./user/SettingsTabs/Coupons";
 
-import UserList from "./console/UserList";
-import CustomerOrderList from "./console/CustomerOrderList";
-import NewCoupon from "./console/newCoupon.jsx";
 import KlippekortRedeem from "./TicketSystem/KlippekortRedeem";
 import MonthPass from "./TicketSystem/MonthPass";
 import MonthPassDetails from "./TicketSystem/MonthPassDetails";
@@ -201,32 +198,6 @@ function AnimatedRoutes() {
             </PageTransition>
           }
         />
-        <Route
-          path="/customer-orders/:userId"
-          element={
-            <PageTransition>
-              <CustomerOrderList />
-            </PageTransition>
-          }
-        />
-        <Route
-          path="/user-list"
-          element={
-            <PageTransition>
-              <UserList />
-            </PageTransition>
-          }
-        />
-        {/* AdminDashboard route removed */}
-        <Route
-          path="/NewCoupon"
-          element={
-            <PageTransition>
-              <NewCoupon />
-            </PageTransition>
-          }
-        />
-
         <Route
           path="/klippekort-redeem"
           element={

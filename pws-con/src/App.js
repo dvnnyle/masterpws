@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import AdminDashboard from './pages/adminConsole/admin';
 import CustomerOrderList from './pages/adminConsole/CustomerOrderList';
+import NewCoupon from './pages/adminConsole/newCoupon';
+import UserList from './pages/adminConsole/UserList';
 import './App.css';
 
 function AppRoutes() {
@@ -20,6 +22,8 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<AdminDashboard />} />
       <Route path="/customer-orders/:userId" element={<CustomerOrderList />} />
+      <Route path="/new-coupon" element={<NewCoupon />} />
+      <Route path="/user-list" element={<UserList />} />
     </Routes>
   );
 }
