@@ -11,8 +11,8 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:3001', 
-  'https://your-customer-app.onrender.com', // Replace with your my-app URL
-  'https://your-admin-app.onrender.com'     // Replace with your pws-con URL
+  'https://masterpwspublic.onrender.com', // Customer app
+  'https://masterpwsadmin.onrender.com'   // Admin console
 ];
 
 app.use(cors({
