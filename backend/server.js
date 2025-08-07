@@ -33,8 +33,8 @@ app.use(cors({
 const admin = require('firebase-admin');
 
 // Debug: Log environment variables (remove in production)
-console.log('Firebase Project ID:', process.env.FIREBASE_PROJECT_ID);
-console.log('Firebase Client Email:', process.env.FIREBASE_CLIENT_EMAIL);
+// console.log('Firebase Project ID:', process.env.FIREBASE_PROJECT_ID);
+// console.log('Firebase Client Email:', process.env.FIREBASE_CLIENT_EMAIL);
 
 if (!admin.apps.length) {
   const serviceAccountConfig = {
@@ -52,7 +52,7 @@ if (!admin.apps.length) {
   };
   
   // Debug: Check if all required fields are present
-  console.log('Service account config:', JSON.stringify(serviceAccountConfig, null, 2));
+  // console.log('Service account config:', JSON.stringify(serviceAccountConfig, null, 2));
   
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccountConfig),

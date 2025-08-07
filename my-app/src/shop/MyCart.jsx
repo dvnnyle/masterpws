@@ -13,7 +13,7 @@ export default function MyCart() {
   const [loading, setLoading] = useState(false);
   const [passHolderName, setPassHolderName] = useState("");
 
-  // Use environment variable for base URL with localhost fallback for development
+  // Use environment variable for base URL - will be your actual frontend URL when deployed
   const baseUrl = process.env.REACT_APP_BASE_URL || "http://localhost:3000";
 
   useEffect(() => {
