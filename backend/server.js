@@ -151,7 +151,7 @@ app.post('/create-payment', async (req, res) => {
         return res.status(500).json({ error: 'Vipps payment token not found' });
       }
 
-      vippsRedirectUrl = `https://api.vipps.no/dwo-api-application/v1/deeplink/vippsgateway?v=2&token=${token}`;
+      vippsRedirectUrl = `https://apitest.vipps.no/dwo-api-application/v1/deeplink/vippsgateway?v=2&token=${token}`;
     }
 
     // Log the actual Vipps redirect URL to the terminal
