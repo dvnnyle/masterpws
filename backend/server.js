@@ -7,8 +7,27 @@ const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 
-// Enable CORS for localhost frontend (adjust in production)
-app.use(cors());
+// Enable CORS for production domains
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:3001', 
+  'https://your-customer-app.onrender.com', // Replace with your my-app URL
+  'https://your-admin-app.onrender.com'     // Replace with your pws-con URL
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, etc.)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 
 // Parse JSON bodies
 const admin = require('firebase-admin');
