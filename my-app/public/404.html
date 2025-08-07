@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirecting...</title>
     <script>
-        // Redirect all 404s to index.html for React Router
+        // Preserve the current path and redirect to index.html with the path intact
+        const currentPath = window.location.pathname + window.location.search + window.location.hash;
+        sessionStorage.setItem('redirectPath', currentPath);
         window.location.replace('/');
     </script>
 </head>

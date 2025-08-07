@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 
 import Navbar from "./comp/Navbar";
@@ -32,14 +32,24 @@ import MonthPassDetails from "./TicketSystem/MonthPassDetails";
 import PageTransition from "./comp/PageTransition";
 
 function AnimatedRoutes() {
+  const navigate = useNavigate();
+  
   useEffect(() => {
     const setAppHeight = () => {
       document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
     };
     setAppHeight();
     window.addEventListener('resize', setAppHeight);
+    
+    // Check for redirect path from 404.html
+    const redirectPath = sessionStorage.getItem('redirectPath');
+    if (redirectPath && redirectPath !== '/') {
+      sessionStorage.removeItem('redirectPath');
+      navigate(redirectPath, { replace: true });
+    }
+    
     return () => window.removeEventListener('resize', setAppHeight);
-  }, []);
+  }, [navigate]);
 
   const location = useLocation();
 
