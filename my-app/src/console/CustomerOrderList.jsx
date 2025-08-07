@@ -12,7 +12,7 @@ import {
 import AdminDashboardNav from './ConsoleComp/AdminDashboardNav';
 import "./CustomerOrderList.css";
 
-const BACKEND_URL = "http://localhost:4000";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:4000";
 
 export default function CustomerOrderList() {
   const { userId } = useParams();

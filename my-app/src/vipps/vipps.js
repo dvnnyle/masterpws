@@ -2,7 +2,11 @@
 // Use environment variable for backend URL, fallback to localhost for development
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
 
+console.log('🔍 BACKEND_URL:', BACKEND_URL);
+console.log('🔍 REACT_APP_BACKEND_URL:', process.env.REACT_APP_BACKEND_URL);
+
 export async function createVippsPayment(paymentData) {
+  console.log('🚀 Creating Vipps payment with URL:', `${BACKEND_URL}/create-payment`);
   const response = await fetch(`${BACKEND_URL}/create-payment`, {
     method: "POST",
     headers: {
