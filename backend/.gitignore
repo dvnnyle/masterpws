@@ -9,7 +9,6 @@ node_modules/
 .env.production.local
 
 # Firebase service account (NEVER commit this)
-*.json
 playworldapp-*.json
 firebase-service-account.json
 
