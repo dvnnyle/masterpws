@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap');
+
+.qr-code-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 12px;
+  gap: 12px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  
+}
+
+.qr-code-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 20px;
+  background: #f9c710;
+  color: rgb(230, 0, 0);
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 900;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+
+
+.qr-code-button:active {
+  transform: translateY(0);
+}
+
+.qr-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -10px;
+}
+
+.qr-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+#qr-button-text {
+  font-weight: 600 !important;
+  color: black !important; 
+}
+
+.qr-code-button.locked {
+  background: #e9ecef;
+  color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.qr-code-button.locked:hover {
+  background: #e9ecef;
+  transform: none;
+}
+
+.qr-code-button:disabled {
+  pointer-events: none;
+}
+
+/* Mobile responsive */
+@media (max-width: 600px) {
+  .qr-code-button {
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  
+  .qr-icon svg {
+    width: 20px;
+    height: 20px;
+    margin-top: -4px;
+  }
+}
+
+.ticket-item.klippekort-ticket .qr-code-button {
+  background: #fff !important;
+  color: #212121 !important;
+  border-radius: 25px;
+  font-weight: 700;
+}
+
+.ticket-item.klippekort-ticket .qr-code-button:not(.locked) {
+  background: #ffffff !important;
+  color: #212121 !important;
+  border-radius: 25px;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 17, 255, 0.08);
+}

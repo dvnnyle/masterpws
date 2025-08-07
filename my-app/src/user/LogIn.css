@@ -1,0 +1,94 @@
+/* Container for the form */
+.login-form {    
+  padding: 24px;
+  border-radius: 25px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    align-items: center;
+text-align: center;
+
+}
+
+/* Inputs styling */
+.login-input {
+  display: block;
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 18px;
+  font-size: 16px;
+  box-sizing: border-box;
+  border-radius: 25px;
+}
+
+/* Submit button */
+.login-button {
+  width: 100%;
+  padding: 14px;
+    font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 25px;
+  background: linear-gradient(240deg, #20b14c 0%, #fec76f 100%);
+  color: #fff;
+  border: none;
+}
+/* Disabled button style */
+.login-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Error message styling */
+.error-message {
+  color: red;
+  margin-top: 12px;
+}
+
+/* Container for create account section */
+.create-account-container {
+  margin-top: 20px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Text for create account */
+.create-account-text {
+  margin: 0;
+}
+
+/* Create account button styled as link */
+.create-account-button {
+  background: none;
+  border: none;
+  color: #20b14c;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  font-size: 16px;
+  font-family: inherit;
+}
+
+
+body, html {
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden; /* prevent horizontal scroll */
+}
+
+/* Remove blue tap highlight on mobile for all clickable elements */
+button, a, input, textarea, select, label, .rectangle-card {
+  -webkit-tap-highlight-color: transparent;
+  text-emphasis-color: transparent;
+}
+
+/* Remove focus outline and box-shadow globally */
+button:focus,
+a:focus,
+input:focus,
+textarea:focus,
+select:focus,
+label:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+

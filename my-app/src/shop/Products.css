@@ -1,0 +1,248 @@
+.products-container {
+  width: calc(100% - 20px);
+  margin-left: 10px;
+}
+
+.category-title {
+  margin-top: 40px;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #ffffff;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 6px;
+}
+
+.shop-products-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.product-card {
+    position: relative; /* add this */
+
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  background: #fefefe;
+  border-radius: 25px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 10px;
+}
+
+.product-image {
+  width: 120px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 20px;
+  margin-right: 20px;
+}
+
+.product-info h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #212121;
+}
+
+.product-info strong {
+  font-size: 1rem;
+  color: #20b14c;
+}
+
+
+body.products-page-body {
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+
+.product-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  background: #fefefe;
+  border-radius: 25px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 10px;
+}
+
+/* New container to position quantity controls absolutely */
+.product-card .quantity-controls-container {
+  position: absolute;
+  bottom: 10px;  /* lifted slightly */
+  right: 14px;
+}
+
+/* Keep your existing quantity-controls flex */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+}
+
+/* Buttons styles unchanged */
+.qty-btn {
+  background-color: #222 !important; /* nice blue */
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  padding: 10px;
+  font-weight: normal;
+  width: 22px;
+  height: 22px;
+  border-radius: 20px;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+
+.qty-display {
+  min-width: 24px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  user-select: none;
+}
+
+
+.summary-card {
+    width: calc(100% - 20px);
+  margin-left: 10px;
+  position: relative;
+  background: #fefefe;
+  border-radius: 25px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 10px ;
+  margin-top: 10px;
+  color: #212121; /* you can keep text dark or change to white depending on bg */
+
+}
+
+
+
+.summary-title {
+  padding-top: 20px;
+  margin: 0 10px 0px 10px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #212121;
+  text-transform: uppercase;
+  text-align: right;
+}
+
+.summary-list {
+  list-style: none;
+  padding-left: 10px;
+  margin: 0 10px 10px 10px;
+  color: #212121;
+  font-size: 1rem;
+  text-align: right;  /* added */
+}
+
+.summary-item {
+  margin-bottom: 4px;
+}
+
+.summary-total {
+  color: #212121;
+  font-weight: 600;
+  margin: 10px 10px 20px 10px;
+  font-size: 1.1rem;
+  text-align: right;  /* added */
+}
+
+.add-all-btn,
+.clear-btn {
+  background-color: #20b14c;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+    font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 00px 0;
+  display: block;
+  width: 100%;
+        padding: 14px;
+
+}
+
+.clear-btn {
+  background-color: #ee5634;
+  margin-top: 10px;
+      padding: 10px;
+          font-size: 1rem;
+
+
+}
+
+.product-description {
+  font-size: 0.8rem;
+  color: #7e7e7e;
+  font-style: italic;
+}
+
+
+
+@media (max-width: 900px) {
+  .products-wrapper {
+    margin-bottom: 110px;
+  }
+}
+@media (min-width: 901px) {
+  .products-wrapper {
+    margin-bottom:120px;
+  }
+}
+
+
+
+.category-filter-bar select {
+  border-radius: 25px;
+  background: #ffffff url('data:image/svg+xml;utf8,<svg fill="black" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 10px center;
+  margin: 10px;
+  margin-bottom: 0;
+  width: calc(100% - 20px);
+  padding: 8px 16px;
+  font-size: 1rem;
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+  font-weight: 500;
+  transition: border 0.2s;
+  appearance: none;
+
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+  60% {
+    opacity: 0.7;
+    transform: translateY(8px) scale(1.01);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.product-card {
+  animation: cardFadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.product-card > * {
+  animation: cardFadeIn 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+
+
+

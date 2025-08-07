@@ -1,0 +1,232 @@
+/* src/style/Home.css */
+
+
+.subtitle {
+  font-size: 14PX;  /* smaller than h2 */
+  margin-left: 12px;   /* space between main text and "Welcome" */
+  color: #666;        /* optional: lighter color */
+  font-weight: normal;
+}
+
+/* Park section container */
+.park-section {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.rectangle-card {
+  flex: 1; /* Each card takes equal width */
+  padding: 10px;
+  background: #FFF;
+  border-radius: 25px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* Mobile responsive - column on screens < 768px */
+@media (max-width: 768px) {
+  .rectangle-card {
+    flex: 1;
+  }
+}
+
+.logo {
+  max-width: 100%;       /* Make sure it doesn't overflow */
+  margin: 10px 10px;        /* 10px margin on left and right */
+  display: flex;
+  justify-content: center;
+  border-radius: 25px ;
+  box-sizing: border-box; /* Include padding in width calculation */
+
+}
+
+
+
+
+.logo img {
+  width: 50px; /* or whatever size */
+  height: auto;
+}
+
+
+@keyframes slideSideToSide {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: 50px; /* move 50px to the right */
+  }
+}
+
+.rectangle-image {
+  width: 100%;
+  height: 120px;
+  max-height: 120px;
+  border-radius: 20px;
+  object-fit: cover;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+    user-select: none;
+  -webkit-user-drag: none;
+}
+
+.image-title {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #212121;
+  text-transform: uppercase;
+    margin-top: 5PX;
+    margin-bottom: 0;
+      text-align: center;
+
+
+}
+
+.image-subtitle{
+  font-size: 12px;
+  color: #666;
+  margin-top: 0px;
+  text-align: CENTER;
+  font-weight: 50;
+  margin-bottom: 0px;
+}
+
+
+
+.home-cards-wrapper {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0;
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-wrapper {
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  margin-bottom: 90px;
+}
+
+.welcome-card {
+  background: #b4a0ff;
+  border-radius: 25px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+  padding: 10px;
+  margin: 10px 10px 10px 10px;
+  width: calc(100% - 20px);
+  text-align: center;
+}
+
+.welcome-title {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+}
+
+.welcome-desc {
+  font-size: 1rem;
+  margin-top: 0;
+  margin-bottom: 4px;
+}
+
+.front-login-btn {
+  display: block;
+  width: 100%;
+  margin: 8px 0 0 0;
+  border-radius: 25px;
+  padding: 6px;
+  border: none;
+  background: #9477fc;
+  color: #222;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.centered-divider {
+  display: flex;
+  align-items: center;
+  width: 55%;
+  margin: 12px auto;
+  color: #FFF;
+  font-weight: 500;
+}
+.centered-divider::before,
+.centered-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 2px solid #bbb;
+  margin: 0 0.75em;
+}
+
+.quick-card {
+background-color: white;
+  border-radius: 22px;
+  padding: 20px 16px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  margin: 10px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #222;
+  font-weight: 400;
+}
+
+
+
+.quick-card h3 {
+  margin-bottom: 8px;
+  font-size: 1.15rem;
+  font-weight: 400;
+}
+
+.quick-card-row {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+  font-weight: normal !important;
+}
+
+.quick-card-row .quick-card {
+  flex: 1;
+}
+
+.quick-section {
+  width: calc(100% - 20px);
+  margin: 0 auto;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+  60% {
+    opacity: 0.7;
+    transform: translateY(8px) scale(1.01);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.quick-card,
+.rectangle-card {
+  animation: cardFadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.quick-card > *,
+.rectangle-card > * {
+  animation: cardFadeIn 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}

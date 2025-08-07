@@ -1,0 +1,97 @@
+.mycart-wrapper {
+  position: relative;
+  width: calc(100% - 20px); /* 10px margin left & right */
+  max-width: 100%;          /* Optional: limit width on desktop */
+  margin: 10px auto 0 auto;  /* 10px top margin, centered */
+  padding: 16px;
+  box-sizing: border-box;
+  background: #fff;
+  border-radius: 25px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+
+
+.phone-pay-form {
+  width: calc(100% - 20px); /* full width minus 10px left and right */
+  margin: 10px 10px;        /* 10px margin on left and right */
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+
+.phone-label {
+  font-weight: 600;
+  text-align: center;
+}
+
+.phone-input {
+  font-size: 18px;
+  border-radius: 25px;
+  border: 1px solid #aaa;
+  box-sizing: border-box;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.pay-now-btn {
+  background-color: #ff5b23;
+  color: white;
+  font-size: 20px;
+  padding: 14px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: background-color 0.3s ease;
+}
+
+/* Optional: Adjust size on smaller screens */
+@media (max-width: 500px) {
+  .edit-cart-btn {
+    font-size: 1rem;
+    top: 8px;
+    right: 8px;
+  }
+}
+
+
+.buyer-name-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 1em;
+  color: #34495e;
+  margin-top: 20px;
+}
+
+.buyer-name-input {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 1.1em;
+  border-radius: 8px;
+  border: 1.5px solid #bbb;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.buyer-name-input:focus {
+  border-color: #2c3e50;
+  outline: none;
+}
+
+.input-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.input-row > div {
+  flex: 1;
+}
