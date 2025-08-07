@@ -28,8 +28,8 @@
   },
   "scripts": {
     "start": "node server.js",
-    "dev": "react-scripts start",
-    "build": "react-scripts build"
+    "dev": "react-scripts start", 
+    "build": "npx react-scripts build"
   },
   "eslintConfig": {
     "extends": [
@@ -50,6 +50,5 @@
     ]
   },
   "devDependencies": {
-    "serve": "^14.2.4"
   }
 }
