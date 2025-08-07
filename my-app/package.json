@@ -29,7 +29,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "react-scripts start", 
-    "build": "npx react-scripts build"
+    "build": "react-scripts build"
   },
   "eslintConfig": {
     "extends": [
