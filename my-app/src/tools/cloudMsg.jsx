@@ -28,26 +28,36 @@ const CloudMessaging = () => {
       // Listen for foreground messages
       onMessage(messaging, (payload) => {
         console.log('Foreground message received:', payload);
-        
-        // Show toast notification when app is open
-        toast.success(
-          `PlayWorld: ${payload.notification.body}`,
-          {
-            duration: 6000,
-            icon: '🎪',
-            style: {
-              background: '#fc8c0b',
-              color: '#white',
-            },
+        // Detect if running as standalone (PWA installed to homescreen)
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+        if (isStandalone) {
+          // Only show notification if app is installed to homescreen (standalone)
+          if (Notification.permission === 'granted') {
+            new Notification(payload.notification.title, {
+              body: payload.notification.body,
+              icon: '/logo192.png',
+            });
           }
-        );
-
-        // Show browser notification as backup
-        if (Notification.permission === 'granted') {
-          new Notification(payload.notification.title, {
-            body: payload.notification.body,
-            icon: '/logo192.png',
-          });
+        } else {
+          // Show toast notification when app is open in browser tab
+          toast.success(
+            `PlayWorld: ${payload.notification.body}`,
+            {
+              duration: 6000,
+              icon: '🎪',
+              style: {
+                background: '#fc8c0b',
+                color: '#white',
+              },
+            }
+          );
+          // Show browser notification as backup
+          if (Notification.permission === 'granted') {
+            new Notification(payload.notification.title, {
+              body: payload.notification.body,
+              icon: '/logo192.png',
+            });
+          }
         }
       });
 
