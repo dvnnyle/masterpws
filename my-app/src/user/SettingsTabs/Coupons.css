@@ -1,0 +1,344 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+html, body, #root {
+  font-family: 'Poppins'!important;
+  background-color: #010f3c;
+}
+
+.header-card {
+  background: #fc8c0b;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+}
+
+.header-title {
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0;
+  font-family: 'Poppins'!important;
+}
+
+.coupons-container {
+  max-width: 100vw;
+  margin: 40px 0;
+  margin-top: 0px;
+  padding: 0 0;
+  margin-bottom: 110px;
+  font-family: 'Poppins'!important;
+}
+
+.coupons-title {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 2rem;
+  color: #ffffff;
+  text-align: center;
+  background-color: #fc8c0b;
+  width: calc(100% - 20px);
+  padding: 16px 0;
+  border-radius: 25px;
+  box-sizing: border-box;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.coupons-form {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.form-input {
+  margin-bottom: 16px;
+  border-radius: 25px;
+  height: 40px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border: 1px solid #222;
+}
+
+.form-button {
+  background: #212121;
+  color: #fff;
+  border: none;
+  border-radius: 25px !important;
+  height: 40px;
+  padding: 0 32px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Poppins'!important;
+}
+
+.list-title {
+  font-size: 1.3rem;
+  color: #ffffff;
+  text-align: center;
+  width: 100%;
+}
+
+.coupons-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: calc(100vw - 20px);
+  margin: 0 auto;
+}
+
+.coupon-card {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: white;
+  border-radius: 25px;
+  padding: 10px;
+  cursor: pointer;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.coupon-emoji {
+  font-size: 4rem;
+  margin-right: 0;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  width: 120px;
+  background: #fc8c0b;
+  border-radius: 20px;
+  box-shadow: none;
+}
+
+.coupon-separator {
+  width: 1.5px;
+  height: 85px;
+  background: #eeeeee;
+  margin: 0 18px;
+  border-radius: 2px;
+  align-self: center;
+}
+
+.coupon-title {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-top: 0;   
+}
+
+.coupon-description {
+  color: #555;
+  font-size: 14px;
+}
+
+.coupon-text {
+  margin-left: 0px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.coupon-expiration {
+  font-size: 12.8px;
+  color: #999;
+  margin-top: 2px;
+  font-style: italic;
+  letter-spacing: 0.2px;
+}
+
+.coupon-delete {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #ff4d4f;
+  border: none;
+  color: white;
+  font-size: 12px;
+  font-weight:bolder;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  line-height: 20px;
+  text-align: center;
+}
+
+.coupon-label {
+  font-size: 14px;
+  color: #00d9ff;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+  font-weight: bold;
+  font-family: 'Poppins'!important;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  width: 100%;
+  max-width: calc(100vw - 20px);
+  margin: 20px 10px;
+  background: #fff;
+  border-radius: 25px;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 120px;
+  animation: modalFadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #b89c2c;
+  cursor: pointer;
+}
+
+.modal-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.modal-description {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.modal-expiration {
+  font-size: 0.95rem;
+  color: #999;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.modal-use-btn {
+  background: #b89c2c;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.coupon-counter-card {
+  max-width: 100%;
+  width: calc(100% - 60px); /* 100% width minus 10px on each side */
+  margin: 10px auto; /* horizontally center it */
+  background: #ffffff;
+  border-radius: 25px;
+  box-shadow: 0 1px 6px rgba(184, 156, 44, 0.07);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+
+.coupon-counter-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #212121;
+}
+
+
+
+.coupon-counter-alltime {
+  margin-top: 10px;
+  color: #d21919;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+/* Style for the unlimited checkbox label and input to match the form */
+.coupons-form label {
+    margin-top: 0 !important;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  color: #212121;
+  cursor: pointer;
+
+
+}
+
+.coupons-form input[type="checkbox"] {
+  accent-color: #272727;
+  width: 30px;
+  height: 30px;
+  border-radius: 25px !important;
+  cursor: pointer;
+  vertical-align: middle; /* Helps in some cases */
+  position: relative;
+  top: 5px; /* Adjust this value as needed */
+}
+
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.96);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.coupon-card {
+  /* ...existing styles... */
+  animation: fadeIn 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  /* Remove the old modalFadeIn animation if present */
+}
+
+
+.coupon-card {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* IE10+/Edge */
+  user-select: none;         /* Standard */
+  -webkit-tap-highlight-color: transparent; /* Remove blue highlight on mobile */
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}

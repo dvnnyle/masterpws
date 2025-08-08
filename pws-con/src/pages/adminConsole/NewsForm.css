@@ -1,32 +1,7 @@
-.news-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 1rem;
-}
-
-.news-card {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.location {
-  font-style: italic;
-  color: #555;
-}
-
-small {
-  color: #888;
-}
-
-
-
 .preview-box {
-  width: calc(100% - 20px); /* Full width minus 10px left + 10px right */
-  margin: 1rem 10px 0 10px; /* 10px margin left and right */
-  box-sizing: border-box;   /* include padding and border in width */
+  width: calc(100% - 20px);
+  margin: 1rem 10px 0 10px;
+  box-sizing: border-box;
   display: flex;
   align-items: flex-start;
   gap: 1rem;
@@ -35,9 +10,7 @@ small {
   padding: 10px;
   background-color: #f9f9f9;
   margin-top: 10px;
-  
 }
-
 
 .preview-box img {
   width: 100px;
@@ -54,14 +27,10 @@ small {
   text-align: left;
 }
 
-
-
-
 .date {
   color: #22222273;
   font-size: 0.8rem;
   text-align: left;
-  
 }
 
 .preview-content h3 {
@@ -69,7 +38,6 @@ small {
   margin-bottom: 0;
   line-height: 1.2;
 }
-
 
 .preview-content p {
   font-size: 0.9rem;
@@ -83,29 +51,22 @@ small {
   align-items: center;
   gap: 6px;
   margin-bottom: 4px;
-  margin-top: 8px; /* add this to push it down */
+  margin-top: 8px;
 }
-
 
 .news-label-text {
   font-weight: bold;
   font-size: 14px;
   color: #20b14c;
-  line-height: 1;  /* Keep it tight */
+  line-height: 1;
 }
-
 
 .preview-content h3,
 .preview-content p,
 .preview-content .date {
   margin-top: 0;
-  margin-bottom: 4px; /* or smaller if needed */
+  margin-bottom: 4px;
 }
-
-
-
-
-
 
 .modal-overlay {
   position: fixed;
@@ -116,12 +77,12 @@ small {
   background: rgba(0,0,0,0.8);
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Move modal to the top */
+  align-items: flex-start;
   z-index: 1000;
 }
 
 .modal-content {
-  margin: 68px 10px 0 10px; /* Add top margin to push modal down from the top */
+  margin: 68px 10px 0 10px;
   width: auto;
   max-width: 600px;
   background: white;
@@ -140,12 +101,11 @@ small {
 }
 
 .modal-text {
-    border-top: solid 1px #ccc;
-        border-bottom: solid 1px #ccc;
-
-padding: 10px 0;
+  border-top: solid 1px #ccc;
+  border-bottom: solid 1px #ccc;
+  padding: 10px 0;
   margin-bottom: 1rem;
-  white-space: pre-wrap; /* to keep line breaks if user writes them */
+  white-space: pre-wrap;
 }
 
 .modal-close-btn {
@@ -162,9 +122,8 @@ padding: 10px 0;
 .modal-content .location,
 .modal-content small {
   margin-top: 0;
-  margin-bottom: 4px; /* small space between them */
+  margin-bottom: 4px;
 }
-
 
 .modal-content,
 .modal-content h2,
@@ -173,7 +132,6 @@ padding: 10px 0;
 .modal-content .location {
   text-align: left;
 }
-
 
 .delete-btn {
   position: absolute;
@@ -194,12 +152,10 @@ padding: 10px 0;
   z-index: 10;
 }
 
-
 .news-form {
   display: flex;
-  flex-direction: column; /* stack children vertically */
-    border-radius: 25px;
-
+  flex-direction: column;
+  border-radius: 25px;
 }
 
 .news-form select,
@@ -209,12 +165,8 @@ padding: 10px 0;
   height: 40px;
   padding-left: 16px;
   padding-right: 16px;
-    border: 1px solid #222;
-
-
+  border: 1px solid #222;
 }
-
-
 
 .news-form textarea {
   margin-bottom: 16px;
@@ -222,13 +174,10 @@ padding: 10px 0;
   padding: 16px;
   border: 1px solid #222;
   min-height: 160px;
-  width: 100%;      /* Add this line for fixed width */
-  max-width: 100%;   /* Prevent overflow on small screens */
+  width: 100%;
+  max-width: 100%;
   box-sizing: border-box;
 }
-
-
-
 
 .news-form button[type="submit"] {
   background: #212121;
@@ -242,7 +191,6 @@ padding: 10px 0;
   cursor: pointer;
 }
 
-
 @keyframes modalFadeIn {
   from {
     opacity: 0;
@@ -254,28 +202,25 @@ padding: 10px 0;
   }
 }
 
-
-
 .preview-box,
 .preview-box * {
-  -webkit-user-select: none; /* Safari */
-  -moz-user-select: none;    /* Firefox */
-  -ms-user-select: none;     /* IE10+/Edge */
-  user-select: none;         /* Standard */
-  -webkit-tap-highlight-color: transparent; /* Remove blue highlight on mobile */
-    animation: cardFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  animation: cardFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body.news-page-body,
 .news-form-page-body {
-  padding-bottom: 180px; /* Add extra space at the bottom */
+  padding-bottom: 180px;
 }
 
 @media (max-width: 600px) {
   body.news-page-body,
   .news-form-page-body {
-    padding-bottom: 110px; /* Even more space for mobile if needed */
+    padding-bottom: 110px;
   }
 }
 
@@ -299,4 +244,3 @@ body.news-page-body,
     transform: translateY(0) scale(1);
   }
 }
-

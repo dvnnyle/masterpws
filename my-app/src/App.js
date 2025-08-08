@@ -15,7 +15,6 @@ import Profile from "./user/Profile";
 import MyCart from "./shop/MyCart";
 import PaymentReturn from "./shop/PaymentReturn";
 import News from "./pages/News/News.jsx";
-import NewsForm from "./pages/News/NewsForm";
 import Settings from "./user/SettingsTabs/Settings";
 import Tickets from "./TicketSystem/Tickets";
 import Support from "./user/SettingsTabs/Support";
@@ -62,15 +61,7 @@ function AnimatedRoutes() {
           }
         />
         <Route
-          path="/NewsForm"
-          element={
-            <PageTransition>
-              <NewsForm />
-            </PageTransition>
-          }
-        />
-        <Route
-          path="/News"
+          path="/news"
           element={
             <PageTransition>
               <News />
@@ -78,7 +69,7 @@ function AnimatedRoutes() {
           }
         />
         <Route
-          path="/PaymentReturn"
+          path="/paymentreturn"
           element={
             <PageTransition>
               <PaymentReturn />

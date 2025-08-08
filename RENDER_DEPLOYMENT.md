@@ -1,4 +1,4 @@
-# 🚀 Render Deployment Guide
+# 🚀 Render Deployment Guide - PlayWorld Platform
 
 ## Architecture Overview
 ```
@@ -6,13 +6,13 @@
 │                    Render Deployment                        │
 ├─────────────────────────────────────────────────────────────┤
 │  Backend (Web Service)                                      │
-│  └── https://your-backend.onrender.com                     │
+│  └── https://masterpws.onrender.com                        │
 │                                                             │
 │  Admin Console (Static Site)                               │
-│  └── https://admin.yourdomain.com (pws-con)               │
+│  └── https://masterpwsadmin.onrender.com                   │
 │                                                             │
 │  Customer App (Static Site)                                │
-│  └── https://yourdomain.com (my-app)                      │
+│  └── https://masterpwspublic.onrender.com                  │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -21,6 +21,62 @@
 - GitHub repository: `https://github.com/dvnnyle/masterpws.git`
 - Firebase project credentials
 - Vipps payment API credentials
+
+## 🎯 Current Deployment Status
+
+### ✅ **Live Services**
+
+| Service | Name | URL | Status |
+|---------|------|-----|--------|
+| 🖥️ **Backend API** | `masterpws` | [masterpws.onrender.com](https://masterpws.onrender.com) | ✅ Active |
+| 📱 **Customer App** | `masterpwspublic` | [masterpwspublic.onrender.com](https://masterpwspublic.onrender.com) | ✅ Active |
+| 🔧 **Admin Console** | `masterpwsadmin` | [masterpwsadmin.onrender.com](https://masterpwsadmin.onrender.com) | ✅ Active |
+
+## 🔧 Current Configuration
+
+### **Backend Environment Variables**
+```env
+NODE_ENV=production
+PORT=10000
+
+# Vipps Configuration
+VIPPS_CLIENT_ID=your_vipps_client_id
+VIPPS_CLIENT_SECRET=your_vipps_client_secret
+VIPPS_SUBSCRIPTION_KEY=your_vipps_subscription_key
+VIPPS_MERCHANT_SERIAL_NUMBER=your_merchant_serial_number
+
+# Firebase Configuration
+REACT_APP_FIREBASE_API_KEY=your_firebase_api_key
+REACT_APP_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+REACT_APP_FIREBASE_PROJECT_ID=your_project_id
+REACT_APP_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+REACT_APP_FIREBASE_APP_ID=your_firebase_app_id
+```
+
+### **Customer App Environment Variables**
+```env
+REACT_APP_BACKEND_URL=https://masterpws.onrender.com
+REACT_APP_BASE_URL=https://masterpwspublic.onrender.com
+REACT_APP_FIREBASE_API_KEY=your_firebase_api_key
+REACT_APP_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+REACT_APP_FIREBASE_PROJECT_ID=your_project_id
+REACT_APP_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+REACT_APP_FIREBASE_APP_ID=your_firebase_app_id
+```
+
+### **Admin Console Environment Variables**
+```env
+REACT_APP_BACKEND_URL=https://masterpws.onrender.com
+REACT_APP_BASE_URL=https://masterpwsadmin.onrender.com
+REACT_APP_FIREBASE_API_KEY=your_firebase_api_key
+REACT_APP_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+REACT_APP_FIREBASE_PROJECT_ID=your_project_id
+REACT_APP_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+REACT_APP_FIREBASE_APP_ID=your_firebase_app_id
+```
 
 ## 🎯 Deployment Steps
 
@@ -32,7 +88,7 @@
    - Connect your GitHub repository: `dvnnyle/masterpws`
    - Settings:
      ```
-     Name: playworld-backend
+     Name: masterpws
      Region: Frankfurt (EU Central)
      Branch: master
      Root Directory: backend
@@ -48,25 +104,21 @@
    PORT=10000
    
    # Vipps Configuration
-   VIPPS_CLIENT_ID=your_actual_vipps_client_id
-   VIPPS_CLIENT_SECRET=your_actual_vipps_client_secret
-   VIPPS_SUBSCRIPTION_KEY=your_actual_vipps_subscription_key
-   VIPPS_MERCHANT_SERIAL_NUMBER=your_actual_merchant_serial_number
+   VIPPS_CLIENT_ID=your_vipps_client_id
+   VIPPS_CLIENT_SECRET=your_vipps_client_secret
+   VIPPS_SUBSCRIPTION_KEY=your_vipps_subscription_key
+   VIPPS_MERCHANT_SERIAL_NUMBER=your_merchant_serial_number
    
-   # Firebase Admin SDK
-   FIREBASE_TYPE=service_account
-   FIREBASE_PROJECT_ID=your_firebase_project_id
-   FIREBASE_PRIVATE_KEY_ID=your_private_key_id
-   FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYOUR_ACTUAL_PRIVATE_KEY\n-----END PRIVATE KEY-----\n"
-   FIREBASE_CLIENT_EMAIL=firebase-adminsdk-xxxxx@your-project.iam.gserviceaccount.com
-   FIREBASE_CLIENT_ID=your_client_id
-   FIREBASE_AUTH_URI=https://accounts.google.com/o/oauth2/auth
-   FIREBASE_TOKEN_URI=https://oauth2.googleapis.com/token
-   FIREBASE_AUTH_PROVIDER_X509_CERT_URL=https://www.googleapis.com/oauth2/v1/certs
-   FIREBASE_CLIENT_X509_CERT_URL=https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-xxxxx%40your-project.iam.gserviceaccount.com
+   # Firebase Configuration
+   REACT_APP_FIREBASE_API_KEY=your_firebase_api_key
+   REACT_APP_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+   REACT_APP_FIREBASE_PROJECT_ID=your_project_id
+   REACT_APP_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
+   REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+   REACT_APP_FIREBASE_APP_ID=your_firebase_app_id
    ```
 
-3. **Deploy and note the URL** (e.g., `https://playworld-backend.onrender.com`)
+3. **Deploy and note the URL**: `https://masterpws.onrender.com`
 
 ### Step 2: Deploy Admin Console (pws-con)
 
@@ -75,7 +127,7 @@
    - Connect your GitHub repository: `dvnnyle/masterpws`
    - Settings:
      ```
-     Name: playworld-admin
+     Name: masterpwsadmin
      Branch: master
      Root Directory: pws-con
      Build Command: npm install && npm run build
@@ -84,17 +136,17 @@
 
 2. **Environment Variables:**
    ```
-   REACT_APP_BACKEND_URL=https://playworld-backend.onrender.com
+   REACT_APP_BACKEND_URL=https://masterpws.onrender.com
+   REACT_APP_BASE_URL=https://masterpwsadmin.onrender.com
    REACT_APP_FIREBASE_API_KEY=your_firebase_api_key
    REACT_APP_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
    REACT_APP_FIREBASE_PROJECT_ID=your_project_id
    REACT_APP_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
-   REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-   REACT_APP_FIREBASE_APP_ID=your_app_id
+   REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+   REACT_APP_FIREBASE_APP_ID=your_firebase_app_id
    ```
 
-3. **Custom Domain (Optional):**
-   - Add custom domain: `admin.yourdomain.com`
+3. **Deploy URL**: `https://masterpwsadmin.onrender.com`
 
 ### Step 3: Deploy Customer App (my-app)
 
@@ -103,7 +155,7 @@
    - Connect your GitHub repository: `dvnnyle/masterpws`
    - Settings:
      ```
-     Name: playworld-customer
+     Name: masterpwspublic
      Branch: master
      Root Directory: my-app
      Build Command: npm install && npm run build
@@ -112,19 +164,21 @@
 
 2. **Environment Variables:**
    ```
-   REACT_APP_BACKEND_URL=https://playworld-backend.onrender.com
+   REACT_APP_BACKEND_URL=https://masterpws.onrender.com
+   REACT_APP_BASE_URL=https://masterpwspublic.onrender.com
    REACT_APP_FIREBASE_API_KEY=your_firebase_api_key
    REACT_APP_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
    REACT_APP_FIREBASE_PROJECT_ID=your_project_id
    REACT_APP_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
-   REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-   REACT_APP_FIREBASE_APP_ID=your_app_id
+   REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+   REACT_APP_FIREBASE_APP_ID=your_firebase_app_id
    ```
 
-3. **Custom Domain (Optional):**
-   - Add custom domain: `yourdomain.com`
+3. **Deploy URL**: `https://masterpwspublic.onrender.com`
 
-### Step 4: Update CORS Configuration
+## 🔧 Post-Deployment Configuration
+
+### Update CORS Configuration
 
 After deployment, update the backend CORS settings:
 
@@ -133,16 +187,13 @@ After deployment, update the backend CORS settings:
    const allowedOrigins = [
      'http://localhost:3000',
      'http://localhost:3001', 
-     'https://your-customer-app.onrender.com',  // Update with actual URL
-     'https://your-admin-app.onrender.com',     // Update with actual URL
-     'https://yourdomain.com',                  // Your custom domain
-     'https://admin.yourdomain.com'             // Admin custom domain
+     'https://masterpwspublic.onrender.com',    // Customer app
+     'https://masterpwsadmin.onrender.com',     // Admin console
+     'https://masterpws.onrender.com'           // Backend (for self-references)
    ];
    ```
 
 2. Commit and push the changes - Render will auto-redeploy.
-
-## 🔧 Post-Deployment Configuration
 
 ### Firebase Security Rules
 Update Firestore security rules to allow your production domains:
@@ -150,7 +201,22 @@ Update Firestore security rules to allow your production domains:
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Your existing rules
+    // Allow authenticated users to read/write their own data
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Allow public read access to news
+    match /news/{document} {
+      allow read: if true;
+      allow write: if request.auth != null; // Only authenticated users can write
+    }
+    
+    // Allow authenticated users to read coupons
+    match /myCouponsFb/{document} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null;
+    }
   }
 }
 ```
@@ -162,11 +228,11 @@ service cloud.firestore {
 
 ## 🎯 Final URLs Structure
 
-After deployment, you'll have:
+After deployment, you have:
 ```
-🌐 Customer App: https://yourdomain.com (or playworld-customer.onrender.com)
-🔧 Admin Console: https://admin.yourdomain.com (or playworld-admin.onrender.com)
-🖥️ Backend API: https://playworld-backend.onrender.com
+🌐 Customer App: https://masterpwspublic.onrender.com
+🔧 Admin Console: https://masterpwsadmin.onrender.com  
+🖥️ Backend API: https://masterpws.onrender.com
 ```
 
 ## 🚨 Important Notes
@@ -176,16 +242,58 @@ After deployment, you'll have:
 3. **Environment Variables** - Must be set in Render dashboard, not in code
 4. **HTTPS Only** - All production URLs will be HTTPS
 5. **Auto-Deploy** - Render automatically redeploys on GitHub pushes
+6. **Build Cache** - Render caches dependencies for faster builds
 
 ## 🔍 Troubleshooting
 
-- **Build Failures**: Check build logs in Render dashboard
-- **Environment Issues**: Verify all environment variables are set
-- **CORS Errors**: Ensure backend allowedOrigins includes your frontend URLs
-- **Firebase Errors**: Check Firebase configuration and security rules
+### Common Issues
+
+**Build Failures:**
+- Check build logs in Render dashboard
+- Verify all dependencies are in package.json
+- Check for missing environment variables
+
+**Environment Issues:**
+- Verify all environment variables are set in Render dashboard
+- Check spelling of variable names
+- Ensure Firebase configuration is complete
+
+**CORS Errors:**
+- Ensure backend allowedOrigins includes your frontend URLs
+- Check that requests are using HTTPS in production
+
+**Firebase Errors:**
+- Check Firebase configuration and security rules
+- Verify Firebase project is active
+- Check network requests in browser dev tools
+
+**Payment Issues (Vipps):**
+- Verify Vipps credentials are correct
+- Check Vipps merchant configuration
+- Monitor backend logs for payment errors
+
+## 📊 Monitoring & Maintenance
+
+### Log Monitoring
+- Backend logs: Render dashboard → Services → masterpws → Logs
+- Build logs: Render dashboard → Static Sites → Logs
+- Firebase logs: Firebase Console → Functions → Logs
+
+### Performance
+- Monitor response times in Render dashboard
+- Check Firebase usage in Firebase Console
+- Use browser dev tools for frontend performance
 
 ## 📞 Support
+
 If you encounter issues, check:
-- Render build logs
-- Browser developer console
-- Backend server logs in Render dashboard
+- 📊 Render build logs and runtime logs
+- 🔍 Browser developer console for client-side errors
+- 🖥️ Backend server logs in Render dashboard
+- 🔥 Firebase console for database/auth issues
+- 💳 Vipps merchant portal for payment issues
+
+For additional help:
+- 📖 [Render Documentation](https://render.com/docs)
+- 🔥 [Firebase Documentation](https://firebase.google.com/docs)
+- 💳 [Vipps Developer Portal](https://developer.vippsmobilepay.com/)

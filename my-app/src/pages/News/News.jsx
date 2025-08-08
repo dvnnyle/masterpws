@@ -4,6 +4,7 @@ import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import NewsPostsList from "./NewsPostsList";
 import newsImg from "../../assets/newsimg.png";
 import newsImg2 from "../../assets/newsimg2.png";
+import "./News.css"; // Add CSS import for modal styles
 
 function formatDate(dateString) {
   const date = new Date(dateString);

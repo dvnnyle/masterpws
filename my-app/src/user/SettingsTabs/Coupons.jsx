@@ -13,6 +13,8 @@ import {
   addDoc,
 } from "firebase/firestore";
 import { FaGift } from "react-icons/fa";
+import "./Coupons.css"; // Add this CSS import
+
 
 export default function Coupons() {
   const navigate = useNavigate();
@@ -217,15 +219,15 @@ export default function Coupons() {
         </button>
         <h1 className="global-title">KUPONGER</h1>
       </div>
-      <div className="admin-coupons-container">
-        <h2 className="admin-coupons-title">Mine kuponger</h2>
+      <div className="coupons-container">
+        <h2 className="coupons-title">Mine kuponger</h2>
 
         {loading ? (
           <div style={{ textAlign: "center", color: "#888", marginTop: 40 }}>
             Laster kuponger...
           </div>
         ) : (
-          <div className="admin-coupons-list">
+          <div className="coupons-list">
             {userCoupons.length === 0 && (
               <div style={{ textAlign: "center", color: "#888", marginTop: 40 }}>
                 Ingen kuponger tilgjengelig.
@@ -236,9 +238,9 @@ export default function Coupons() {
               const isUsed = usedCoupons[coupon.id];
               const isOtherTimerActive = timerActive && activeCouponId !== coupon.id;
 
-              return (
+                return (
                 <div
-                  className="admin-coupon-card"
+                  className="coupon-card"
                   key={coupon.id}
                   onClick={() => handleCardClick(coupon, idx)}
                   draggable={false}
@@ -256,19 +258,19 @@ export default function Coupons() {
                         : "pointer",
                   }}
                 >
-                  <div className="admin-coupon-emoji">🎫</div>
-                                  <div className="admin-coupon-separator"></div> {/* <-- Add this */}
+                  <div className="coupon-emoji">🎫</div>
+                  <div className="coupon-separator"></div>
 
-                  <div className="admin-coupon-text">
-                    <div className="admin-coupon-label">
+                  <div className="coupon-text">
+                    <div className="coupon-label">
                       <FaGift style={{ marginRight: 4 }} /> Kupong
                     </div>
-                    <div className="admin-coupon-title">{coupon.title}</div>
-                    <div className="admin-coupon-description">
+                    <div className="coupon-title">{coupon.title}</div>
+                    <div className="coupon-description">
                       {coupon.description}
                     </div>
                     {coupon.expiration && (
-                      <span className="admin-coupon-expiration">
+                      <span className="coupon-expiration">
                         Utløper: {formatDate(coupon.expiration)}
                       </span>
                     )}
@@ -280,14 +282,14 @@ export default function Coupons() {
         )}
 
         {modalCoupon && (
-          <div className="coupon-modal-overlay" onClick={() => setModalCoupon(null)}>
-            <div className="coupon-modal" onClick={(e) => e.stopPropagation()}>
-              <div className="coupon-modal-header">
-                <span className="admin-coupon-label">
+          <div className="modal-overlay" onClick={() => setModalCoupon(null)}>
+            <div className="modal" onClick={(e) => e.stopPropagation()}>
+              <div className="modal-header">
+                <span className="coupon-label">
                   <FaGift style={{ marginRight: 4 }} /> KUPONG
                 </span>
                 <button
-                  className="coupon-modal-close"
+                  className="modal-close"
                   onClick={() => {
                     if (navigator.vibrate) navigator.vibrate(30);
                     setModalCoupon(null);
@@ -296,12 +298,12 @@ export default function Coupons() {
                   ✕
                 </button>
               </div>
-              <div className="coupon-modal-title">{modalCoupon.title}</div>
-              <div className="coupon-modal-description">
+              <div className="modal-title">{modalCoupon.title}</div>
+              <div className="modal-description">
                 {modalCoupon.description}
               </div>
               {modalCoupon.expiration && (
-                <div className="coupon-modal-expiration">
+                <div className="modal-expiration">
                   Utløper: {formatDate(modalCoupon.expiration)}
                 </div>
               )}
@@ -312,7 +314,7 @@ export default function Coupons() {
               ) : (
                 (!usedCoupons[modalCoupon.id] || modalCoupon.unlimited || modalCoupon.expiration === null) && (
                   <button
-                    className="coupon-modal-use"
+                    className="modal-use-btn"
                     onClick={() => {
                       if (navigator.vibrate) navigator.vibrate(30);
                       handleUse();
