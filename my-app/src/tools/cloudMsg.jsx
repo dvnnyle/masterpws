@@ -1,3 +1,4 @@
+// File deleted
 import React, { useEffect, useState } from 'react';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import { app } from '../firebase';
