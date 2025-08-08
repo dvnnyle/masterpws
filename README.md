@@ -1,10 +1,14 @@
-# 🎮 PlayWorld - Complete Gaming Experience Platform
+# 🎪 PlayWorld - Indoor Playground Ticketing Platform � PlayWorld - Indoor Play- 🏠 **Home & Navigation** - Intuitive user interface
+- 🎪 **Activity Booking** - Reserve playground activities (trampolines, mini golf, climbing)
+- 🛒 *- 📖 **Deployment Guide**: See [RENDER_DEPLOYMENT.md](RENDER_DEPLOYMENT.md)
+- 🎪 **PlayWorld Website**: [playworld.no](https://playworld.no/)
+- 📞 **Contact**: 944 67 290 | post@playworld.nocket Shop** - Purchase tickets and activity passesund Ticketing Platform
 
 <div align="center">
 
-![PlayWorld Logo](https://img.shields.io/badge/PlayWorld-Gaming%20Platform-orange?style=for-the-badge&logo=gamepad)
+![PlayWorld Logo](https://img.shields.io/badge/PlayWorld-Playground%20Platform-orange?style=for-the-badge&logo=playground)
 
-**A full-stack React application for gaming venue management with integrated payment systems**
+**A full-stack React application for indoor playground ticket management with integrated Vipps payments**
 
 [![React](https://img.shields.io/badge/React-18.2.0-61DAFB?style=flat-square&logo=react)](https://reactjs.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-Express-339933?style=flat-square&logo=node.js)](https://nodejs.org/)
@@ -15,22 +19,25 @@
 
 ---
 
-## 🏗️ **Architecture Overview**
+##  **About PlayWorld Sørlandet**
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    PlayWorld Platform                       │
-├─────────────────────────────────────────────────────────────┤
-│  🖥️ Backend API                                             │
-│  └── https://masterpws.onrender.com                        │
-│                                                             │
-│  🔧 Admin Console                                           │
-│  └── https://masterpwsadmin.onrender.com                   │
-│                                                             │
-│  📱 Customer App                                            │
-│  └── https://masterpwspublic.onrender.com                  │
-└─────────────────────────────────────────────────────────────┘
-```
+**PlayWorld Sørlandet** is Kristiansand's most exciting indoor playground, located at Sørlandssenteret. We offer a variety of activities for all ages:
+
+### 🏃‍♂️ **Our Activities**
+- 🤸 **Trampolines** - Various trampoline activities and courses
+- ⛳ **Mini Golf** - Professional indoor mini golf course  
+- 🧗 **Climbing & Ninja Course** - Build confidence and strength
+- 🎈 **Birthday Parties** - Complete party packages
+- 👶 **Fryd Area** - Safe play area for the youngest children
+- 🎯 **Adrenalize** - High-energy activities for thrill seekers
+
+### 💰 **Pricing Examples**
+- **Mini Golf:** 99 kr (children 4-6) | 129 kr (adults 13+) | 299 kr (group of 4)
+- **Playground Time:** 129 kr (30 min) | 169 kr (1 hour) | 249 kr (2 hours) | 299 kr (unlimited)
+
+📍 **Location:** Sørlandssenteret, Barstølveien 35, Kristiansand  
+📞 **Phone:** 944 67 290  
+📧 **Email:** post@playworld.no | booking@playworld.no  
 
 ## 📂 **Project Structure**
 
@@ -58,26 +65,26 @@ referie/
 
 ### 🎯 **Customer App (`my-app`)**
 - 🏠 **Home & Navigation** - Intuitive user interface
-- 🎮 **Park Booking** - Reserve gaming stations
-- 🛒 **E-commerce** - Purchase gaming products
+- � **Activity Booking** - Reserve playground activities (trampolines, mini golf, climbing)
+- 🛒 **Ticket Shop** - Purchase tickets and activity passes
 - 💳 **Vipps Integration** - Secure Norwegian payment system
-- 🎫 **Ticket System** - Digital tickets and passes
-- 🎟️ **Coupon Management** - Redeem and use coupons
-- 👤 **User Profiles** - Account management
-- 📱 **Mobile Responsive** - Works on all devices
+- 🎫 **Digital Tickets** - QR code tickets and monthly passes
+- 🎟️ **Coupon System** - Redeem discount coupons
+- 👤 **User Profiles** - Account and booking management
+- 📱 **Mobile Responsive** - Perfect for on-the-go bookings
 
 ### 🔧 **Admin Console (`pws-con`)**
-- 📊 **Dashboard** - Overview of all operations
-- 👥 **User Management** - View and manage customers
-- 🎟️ **Coupon Creation** - Create and track coupons
-- 📰 **News Management** - Publish news and updates
-- 📋 **Order Tracking** - Monitor all transactions
-- 🎛️ **Admin Navigation** - Consistent admin interface
+- 📊 **Dashboard** - Overview of playground operations
+- 👥 **Customer Management** - View and manage customers
+- 🎟️ **Coupon Creation** - Create and track discount coupons
+- 📰 **News Management** - Publish announcements and updates
+- 📋 **Booking Tracking** - Monitor all ticket sales and bookings
+- 🎛️ **Admin Navigation** - Streamlined management interface
 
 ### ⚙️ **Backend (`backend`)**
-- 🔐 **Firebase Authentication** - Secure user management
-- 💾 **Firestore Database** - Real-time data storage
-- 💰 **Vipps Payment API** - Norwegian payment processing
+- 🔐 **Firebase Authentication** - Secure customer management
+- 💾 **Firestore Database** - Real-time booking and customer data
+- 💰 **Vipps Payment API** - Norwegian payment processing for tickets
 - 🌐 **CORS Configuration** - Secure cross-origin requests
 - 📊 **Order Management** - Complete transaction handling
 
@@ -86,7 +93,7 @@ referie/
 | Service | URL | Purpose |
 |---------|-----|---------|
 | 📱 **Customer App** | [masterpwspublic.onrender.com](https://masterpwspublic.onrender.com) | Public-facing customer interface |
-| 🔧 **Admin Console** | [masterpwsadmin.onrender.com](https://masterpwsadmin.onrender.com) | Administrative management |
+| 🔧 **Admin Console** | admin.playworld-internal.com | Administrative management |
 | 🖥️ **Backend API** | [masterpws.onrender.com](https://masterpws.onrender.com) | Core API services |
 
 ## 🛠️ **Tech Stack**
@@ -129,7 +136,7 @@ REACT_APP_FIREBASE_PROJECT_ID=***
 ### **Admin Console Environment**
 ```env
 REACT_APP_BACKEND_URL=https://masterpws.onrender.com
-REACT_APP_BASE_URL=https://masterpwsadmin.onrender.com
+REACT_APP_BASE_URL=https://admin.playworld-internal.com
 REACT_APP_FIREBASE_API_KEY=***
 REACT_APP_FIREBASE_AUTH_DOMAIN=***
 REACT_APP_FIREBASE_PROJECT_ID=***
@@ -183,37 +190,46 @@ REACT_APP_FIREBASE_PROJECT_ID=***
 
 ## 🎯 **Key Features Implemented**
 
-- ✅ **React Router** - Client-side routing with 404 handling
-- ✅ **Vipps Payments** - Norwegian payment integration
-- ✅ **Firebase Integration** - Real-time data and authentication
-- ✅ **Admin Dashboard** - Complete management interface
-- ✅ **Mobile Responsive** - Works on all devices
-- ✅ **CORS Security** - Secure API communication
-- ✅ **Static Site Deployment** - Fast, reliable hosting
+- ✅ **Digital Ticketing** - QR code tickets and monthly passes
+- ✅ **Vipps Payments** - Norwegian payment integration for playground activities
+- ✅ **Firebase Integration** - Real-time booking data and customer management
+- ✅ **Admin Dashboard** - Complete playground management interface
+- ✅ **Mobile Responsive** - Perfect for customers booking on mobile devices
+- ✅ **Activity Management** - Handle trampolines, mini golf, climbing courses
+- ✅ **Customer Profiles** - Track visits, purchases, and loyalty
+
+## 🏆 **Business Benefits**
+
+- 📱 **Digital Transformation** - Paperless ticketing system
+- 💰 **Revenue Optimization** - Real-time pricing and coupon management
+- 👥 **Customer Insights** - Track popular activities and peak times
+- 🎯 **Marketing Tools** - News updates and promotional coupons
+- ⚡ **Operational Efficiency** - Streamlined booking and check-in process
+- 📊 **Data Analytics** - Comprehensive reporting on playground usage
 
 ## 🚨 **Important Notes**
 
-- 🔒 **Security**: All sensitive data handled via environment variables
-- 🚀 **Performance**: Static site generation for optimal speed
-- 📱 **Mobile-First**: Responsive design for all screen sizes
-- 🔄 **Auto-Deploy**: Automatic deployments on code changes
-- 🛡️ **Error Handling**: Comprehensive error boundaries
+- 🔒 **Security**: All customer data and payments handled securely
+- 🚀 **Performance**: Fast loading times for busy playground environments
+- 📱 **Mobile-First**: Optimized for customers using smartphones
+- 🔄 **Real-time**: Live booking availability and instant confirmations
+- 🛡️ **Error Handling**: Reliable system for high-traffic periods
 
 ## 📞 **Support & Documentation**
 
 - 📖 **Deployment Guide**: See [RENDER_DEPLOYMENT.md](RENDER_DEPLOYMENT.md)
-- 🐛 **Issues**: Check browser console and server logs
-- 🔧 **Configuration**: Verify environment variables in Render dashboard
+- 🎪 **PlayWorld Website**: [playworld.no](https://playworld.no/)
+- � **Contact**: 944 67 290 | post@playworld.no
 
 ---
 
 <div align="center">
 
-**Built with ❤️ for the gaming community**
+**Built with ❤️ for PlayWorld Sørlandet**
 
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?style=flat-square&logo=github)](https://github.com/dvnnyle/masterpws)
 [![Render](https://img.shields.io/badge/Deployed%20on-Render-46E3B7?style=flat-square&logo=render)](https://render.com/)
 
-*Last updated: December 2024*
+*Digital playground management made simple*
 
 </div>
