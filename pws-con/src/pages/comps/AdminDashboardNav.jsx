@@ -8,7 +8,8 @@ import {
   FiGift,
   FiLogOut,
   FiUser,
-  FiEdit3
+  FiEdit3,
+  FiBell
 } from 'react-icons/fi';
 
 export default function AdminDashboardNav() {
@@ -19,7 +20,8 @@ export default function AdminDashboardNav() {
     { path: '/', icon: FiBarChart2, label: 'Dashboard' },
     { path: '/user-list', icon: FiUsers, label: 'Users' },
     { path: '/new-coupon', icon: FiGift, label: 'Coupons' },
-    { path: '/NewsForm', icon: FiEdit3, label: 'News' }
+    { path: '/news-form', icon: FiEdit3, label: 'News' },
+    { path: '/notifications', icon: FiBell, label: 'Send Varsler' }
   ];
 
   const isActive = (path) => location.pathname === path;

@@ -350,6 +350,37 @@ app.post('/refund-payment', async (req, res) => {
 // app.use('/my-app', express.static(myAppBuildPath));
 // app.use('/pws-con', express.static(pwsConBuildPath));
 
+// --- FCM Notification Endpoint ---
+app.post('/api/send-notification', async (req, res) => {
+  const { title, message } = req.body;
+  if (!title || !message) {
+    return res.status(400).json({ error: 'Missing title or message' });
+  }
+
+  try {
+    // Get all FCM tokens from Firestore (collection: fcmTokens, doc id = token)
+    const tokensSnapshot = await firestore.collection('fcmTokens').get();
+    const tokens = tokensSnapshot.docs.map(doc => doc.id);
+
+    if (tokens.length === 0) {
+      return res.status(200).json({ message: 'No tokens to send to.' });
+    }
+
+    const payload = {
+      notification: {
+        title,
+        body: message,
+      },
+    };
+
+    await admin.messaging().sendToDevice(tokens, payload);
+    res.status(200).json({ message: 'Notification sent!' });
+  } catch (error) {
+    console.error('Error sending notification:', error);
+    res.status(500).json({ error: 'Failed to send notification' });
+  }
+});
+
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`🧪 Vipps TESTING backend listening on port ${PORT}`);

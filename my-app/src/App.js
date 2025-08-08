@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+import { Toaster } from 'react-hot-toast';
 
 import Navbar from "./comp/Navbar";
 import Home from "./pages/Home";
@@ -26,6 +27,8 @@ import MonthPass from "./TicketSystem/MonthPass";
 import MonthPassDetails from "./TicketSystem/MonthPassDetails";
 
 import PageTransition from "./comp/PageTransition";
+import CloudMsg from "./tools/cloudMsg";
+import CloudMsgPage from "./pages/CloudMsgPage";
 
 function AnimatedRoutes() {
   const navigate = useNavigate();
@@ -213,6 +216,14 @@ function AnimatedRoutes() {
             </PageTransition>
           }
         />
+        <Route
+          path="/cloudmsg"
+          element={
+            <PageTransition>
+              <CloudMsgPage />
+            </PageTransition>
+          }
+        />
       </Routes>
     </AnimatePresence>
   );
@@ -223,6 +234,17 @@ function App() {
     <Router>
       <Navbar />
       <AnimatedRoutes />
+      <CloudMsg />
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 6000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+        }}
+      />
     </Router>
   );
 }

@@ -5,6 +5,7 @@ import CustomerOrderList from './pages/adminConsole/CustomerOrderList';
 import NewCoupon from './pages/adminConsole/newCoupon';
 import UserList from './pages/adminConsole/UserList';
 import NewsForm from './pages/adminConsole/NewsForm';
+import NotificationSender from './pages/adminConsole/NotificationSender';
 import './App.css';
 
 function AppRoutes() {
@@ -26,6 +27,7 @@ function AppRoutes() {
       <Route path="/new-coupon" element={<NewCoupon />} />
       <Route path="/user-list" element={<UserList />} />
       <Route path="/news-form" element={<NewsForm />} />
+      <Route path="/notifications" element={<NotificationSender />} />
     </Routes>
   );
 }
