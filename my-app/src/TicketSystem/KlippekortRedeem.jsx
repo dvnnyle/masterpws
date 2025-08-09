@@ -17,6 +17,7 @@ export default function KlippekortRedeem({ onRedeem }) {
   const [showGoToTicketsModal, setShowGoToTicketsModal] = useState(false);
   const [reloadTrigger, setReloadTrigger] = useState(0);
   const [localLoaded, setLocalLoaded] = useState(false);
+  const [selectedCardLoaded, setSelectedCardLoaded] = useState(false);
 
   // Memoized calculations for better performance
   const archiveList = useMemo(() => 
@@ -100,6 +101,18 @@ export default function KlippekortRedeem({ onRedeem }) {
     return () => unsubscribe();
   }, [reloadTrigger]);
 
+  // Trigger selectedCardLoaded after klippekort data is ready
+  React.useEffect(() => {
+    if (klippekortList.length > 0 && selected) {
+      const timer = setTimeout(() => {
+        setSelectedCardLoaded(true);
+      }, 200); // Small delay to ensure selected card renders first
+      return () => clearTimeout(timer);
+    } else {
+      setSelectedCardLoaded(false);
+    }
+  }, [klippekortList.length, selected]);
+
   // Memoized components for better performance
   const ArchiveItem = React.memo(({ k, idx }) => (
     <li key={k.id || k._uniqueId || idx} className="kr-archive-item archive-card">
@@ -137,15 +150,109 @@ export default function KlippekortRedeem({ onRedeem }) {
   ));
 
   // Only show 'Ingen klippekort funnet.' if there are truly no active klippekort in the dropdown
-  if (klippekortList.length === 0) return (
-    <div className="klippekort-redeem-container">
-      {localLoaded && (
-        <div className="kr-card archive-header-card kr-archive-header-margin">
+  if (!user && localLoaded) {
+    // Show login prompt for non-logged-in users
+    return (
+      <div className="klippekort-redeem-container">
+        <div className="global-rectangle">
+          <h1 className="global-title">KLIPPEKORT</h1>
+        </div>
+        
+        {/* Info card when user is not logged in */}
+        <div className="kr-card klippekort-info-card">
+          <h2 className="kr-title">Logg inn for å se dine klippekort</h2>
           <div className="kr-card-content">
+            <p style={{color: '#5f4bb6', fontSize: '1.1rem', fontWeight: '500', marginBottom: '16px'}}>
+              Du må være logget inn for å se og bruke dine klippekort.
+            </p>
+            <button 
+              className="kr-redeem-btn" 
+              onClick={() => window.location.href = '/login'}
+              style={{width: '100%', padding: '14px', marginBottom: '8px'}}
+            >
+              Logg inn her
+            </button>
+            <button 
+              className="kr-redeem-btn" 
+              onClick={() => window.location.href = '/products'}
+              style={{width: '100%', padding: '14px', background: 'linear-gradient(90deg, #5f4bb6 0%, #7a5af5 100%)'}}
+            >
+              Kjøp klippekort her
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
+  if (user && localLoaded && klippekortList.length === 0 && allKlippekort.length > 0) return (
+    <div className="klippekort-redeem-container">
+      <div className="global-rectangle">
+        <h1 className="global-title">KLIPPEKORT</h1>
+      </div>
+      
+      {/* Info card when user has no active klippekort but has bought some before */}
+      <div className="kr-card klippekort-info-card">
+        <h2 className="kr-title">Du har ingen aktive klippekort</h2>
+        <div className="kr-card-content">
+          <p style={{color: '#5f4bb6', fontSize: '1.1rem', fontWeight: '500', marginBottom: '16px'}}>
+            Alle dine klippekort er brukt opp. Kjøp nye klippekort for å fortsette!
+          </p>
+          <button 
+            className="kr-redeem-btn" 
+            onClick={() => window.location.href = '/products'}
+            style={{width: '100%', padding: '14px'}}
+          >
+            Kjøp klippekort her
+          </button>
+        </div>
+      </div>
+
+      {showArchive && (
+        <div className="kr-modal-overlay" onClick={() => setShowArchive(false)}>
+          <div className="kr-modal" onClick={e => e.stopPropagation()}>
+            <button className="kr-modal-close" onClick={() => setShowArchive(false)}>&times;</button>
+            <h2 className="kr-archive-title">Dine klippekort</h2>
+            <div className="kr-archive-list-wrapper">
+              {archiveList.length === 0 ? (
+                <div className="kr-archive-empty">Ingen brukte klippekort funnet.</div>
+              ) : (
+                <ul className="kr-archive-list">
+                  {archiveList.map((k, idx) => (
+                    <ArchiveItem key={k.id || k._uniqueId || idx} k={k} idx={idx} />
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
         </div>
       )}
+    </div>
+  );
+
+  if (user && localLoaded && klippekortList.length === 0 && allKlippekort.length === 0) return (
+    <div className="klippekort-redeem-container">
+      <div className="global-rectangle">
+        <h1 className="global-title">KLIPPEKORT</h1>
+      </div>
+      
+      {/* Info card when logged-in user has no klippekort at all */}
+      <div className="kr-card klippekort-info-card">
+        <h2 className="kr-title">Du har ingen klippekort</h2>
+        <div className="kr-card-content">
+          <p style={{color: '#5f4bb6', fontSize: '1.1rem', fontWeight: '500', marginBottom: '16px'}}>
+            Kjøp ditt første klippekort for å komme i gang!
+          </p>
+          <button 
+            className="kr-redeem-btn" 
+            onClick={() => window.location.href = '/products'}
+            style={{width: '100%', padding: '14px'}}
+          >
+            Kjøp klippekort her
+          </button>
+        </div>
+      </div>
+
       {showArchive && (
         <div className="kr-modal-overlay" onClick={() => setShowArchive(false)}>
           <div className="kr-modal" onClick={e => e.stopPropagation()}>
@@ -268,28 +375,32 @@ export default function KlippekortRedeem({ onRedeem }) {
                  <div className="global-rectangle">
         <h1 className="global-title">KLIPPEKORT</h1>
       </div>
-      <div className="kr-card selected-klippekort-card">
-        {selected && (
-          <img src={pwLogo} alt="Playworld Logo" className="wallet-card-logo" style={{marginBottom: 10, marginTop: -10}} />
-        )}
-        {selected && (
-          <div className={`kr-status-text ${selected.status === 'active' ? 'active-status' : 'inactive-status'}`}> 
-            {selected.status === 'active' ? 'Aktiv' : 'Deaktivert'}
-          </div>
-        )}
-        <h2 className="kr-title">{selected ? selected.name : 'Ingen klippekort valgt'}</h2>
-        {selected && (
-          <div className="kr-card-content">
-            <div><strong>Antall klipp totalt:</strong> {selected.stampTotal || selected.stampAmounts}</div>
-            <div style={{marginTop: '2px'}}><strong>Utløpsdato:</strong> {selected.lastDayOfUse || "Ingen utløpsdato"}</div>
-            <div><strong>Klipp igjen:</strong> {(selected.stampTotal || selected.stampAmounts) - (selected.stampUsed || 0)}/{selected.stampTotal || selected.stampAmounts}</div>
-            <span className="klippekort-id">
-              ID: {selected.id && String(selected.id).startsWith('KLK') ? selected.id : (selected.productId || selected._uniqueId || 'Ukjent')}
-            </span>
-          </div>
-        )}
-      </div>
-      {klippekortList.length > 0 && (
+
+      {/* Only show selected card when data is loaded and either has klippekort or truly has none */}
+      {localLoaded && (klippekortList.length > 0 || (allKlippekort.length === 0 && klippekortList.length === 0)) && (
+        <div className="kr-card selected-klippekort-card">
+          {selected && (
+            <img src={pwLogo} alt="Playworld Logo" className="wallet-card-logo" style={{marginBottom: 10, marginTop: -10}} />
+          )}
+          {selected && (
+            <div className={`kr-status-text ${selected.status === 'active' ? 'active-status' : 'inactive-status'}`}> 
+              {selected.status === 'active' ? 'Aktiv' : 'Deaktivert'}
+            </div>
+          )}
+          <h2 className="kr-title">{selected ? selected.name : 'Ingen klippekort valgt'}</h2>
+          {selected && (
+            <div className="kr-card-content">
+              <div><strong>Antall klipp totalt:</strong> {selected.stampTotal || selected.stampAmounts}</div>
+              <div style={{marginTop: '2px'}}><strong>Utløpsdato:</strong> {selected.lastDayOfUse || "Ingen utløpsdato"}</div>
+              <div><strong>Klipp igjen:</strong> {(selected.stampTotal || selected.stampAmounts) - (selected.stampUsed || 0)}/{selected.stampTotal || selected.stampAmounts}</div>
+              <span className="klippekort-id">
+                ID: {selected.id && String(selected.id).startsWith('KLK') ? selected.id : (selected.productId || selected._uniqueId || 'Ukjent')}
+              </span>
+            </div>
+          )}
+        </div>
+      )}
+      {klippekortList.length > 0 && selectedCardLoaded && (
         <div className="kr-card redeem-card">
           <h2 className="kr-title">Løs ut klippekort</h2>
           <div className="kr-card-content">
@@ -340,7 +451,7 @@ export default function KlippekortRedeem({ onRedeem }) {
 
         </div>
       )}
-      {klippekortList.length > 0 && (
+      {klippekortList.length > 0 && selectedCardLoaded && (
         <>
           <div className="centered-divider"><span>ARKIV</span></div>
           <div className="kr-card archive-header-card kr-archive-header-margin">

@@ -342,6 +342,17 @@ li.kr-archive-item.archive-card {
   -webkit-backdrop-filter: blur(5px);
 }
 
+.klippekort-info-card {
+  background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%);
+  border: 2px solid #e0e8ff;
+  animation: cardFadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.klippekort-info-card .kr-title {
+  color: #7a5af5 !important;
+  margin-bottom: 8px;
+}
+
 .selected-klippekort-card {
   position: relative;
   background: linear-gradient(45deg, #0011ff 0%, #431ee7 45%, #00e0ff 100%);

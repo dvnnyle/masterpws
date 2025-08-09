@@ -27,8 +27,7 @@ import MonthPass from "./TicketSystem/MonthPass";
 import MonthPassDetails from "./TicketSystem/MonthPassDetails";
 
 import PageTransition from "./comp/PageTransition";
-// import CloudMsg from "./tools/cloudMsg";
-// import CloudMsgPage from "./pages/CloudMsgPage";
+
 
 function AnimatedRoutes() {
   const navigate = useNavigate();
@@ -216,7 +215,6 @@ function AnimatedRoutes() {
             </PageTransition>
           }
         />
-  {/* CloudMsgPage route removed */}
       </Routes>
     </AnimatePresence>
   );
@@ -227,7 +225,6 @@ function App() {
     <Router>
       <Navbar />
       <AnimatedRoutes />
-  {/* <CloudMsg /> removed */}
       <Toaster
         position="top-center"
         toastOptions={{

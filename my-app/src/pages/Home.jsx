@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MdConfirmationNumber, MdEventSeat, MdPerson } from 'react-icons/md';
+import { onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
+import { auth, db } from '../firebase';
 import '../style/global.css';
 import '../style/Home.css';
 import pwsImage from '../assets/pws.png';
@@ -33,6 +36,33 @@ function ProfileCardButton({ emoji, label, to, vibrate = 10 }) {
 
 export default function Home() {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+        try {
+          const userDocRef = doc(db, "users", currentUser.email.toLowerCase());
+          const docSnap = await getDoc(userDocRef);
+          if (docSnap.exists()) {
+            setUserName(docSnap.data().name || 'Bruker');
+          } else {
+            setUserName('Bruker');
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+          setUserName('Bruker');
+        }
+      } else {
+        setUser(null);
+        setUserName('');
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <div className="home-wrapper">
@@ -41,15 +71,30 @@ export default function Home() {
       </div>
 
       {/* Welcome Card */}
-      <div className="welcome-card">
-        <h2 className="welcome-title">Velkommen til Playworld!</h2>
-        <p className="welcome-desc">Logg inn for full opplevelse 💜</p>
-        <button 
-          className="front-login-btn"
-          onClick={() => navigate('/login')}
-        >
-          Logg inn
-        </button>
+      <div className={`welcome-card ${user ? 'logged-in' : ''}`}>
+        {user ? (
+          <>
+            <h2 className="welcome-title">Velkommen, {userName.toUpperCase()}!</h2>
+            <p className="welcome-desc">Klar for en ny dag med moro? 💜</p>
+            <button 
+              className="front-login-btn"
+              onClick={() => navigate('/profile')}
+            >
+              GÅ TIL PROFIL
+            </button>
+          </>
+        ) : (
+          <>
+            <h2 className="welcome-title">Velkommen til Playworld!</h2>
+            <p className="welcome-desc">Logg inn for full opplevelse 💜</p>
+            <button 
+              className="front-login-btn"
+              onClick={() => navigate('/login')}
+            >
+              Logg inn
+            </button>
+          </>
+        )}
       </div>
 
       <div className="centered-divider"><span>PARKER</span></div>

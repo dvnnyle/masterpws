@@ -108,9 +108,9 @@ export default function PaymentReturn() {
           // Use email as guestKey if available, else fallback to phone, else 'guest'
           let guestKey = 'guest';
           if (storedEmail && storedEmail.trim()) {
-            guestKey = storedEmail.trim().toLowerCase().replace(/[.#$\[\]]/g, '_');
+            guestKey = storedEmail.trim().toLowerCase().replace(/[.#$[\]]/g, '_');
           } else if (storedPhone && storedPhone.trim()) {
-            guestKey = storedPhone.trim().replace(/[.#$\[\]]/g, '_');
+            guestKey = storedPhone.trim().replace(/[.#$[\]]/g, '_');
           }
           const guestDocRef = doc(db, "guests", guestKey);
           const guestOrderRef = doc(db, "guests", guestKey, "NewGuestOrders", storedReference);
@@ -193,11 +193,12 @@ export default function PaymentReturn() {
               let baseId = `MK${Math.floor(100000 + Math.random() * 900000)}`;
               let suffix = '';
               let attempts = 0;
+              let passId = '';
               do {
                 suffix = String.fromCharCode(65 + Math.floor(Math.random() * 26)) + String.fromCharCode(65 + Math.floor(Math.random() * 26));
+                passId = baseId + suffix;
                 attempts++;
-              } while (attempts < 10 && (await getDocs(collection(orderDocRef, "myPasses"))).docs.some(doc => doc.id === baseId + suffix));
-              const passId = baseId + suffix;
+              } while (attempts < 10 && (await getDocs(collection(orderDocRef, "myPasses"))).docs.some(doc => doc.id === passId));
               const passData = {
                 category: item.category || "månedskort",
                 dayDuration: item.dayDuration || 30,

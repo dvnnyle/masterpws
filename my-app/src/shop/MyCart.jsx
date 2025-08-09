@@ -108,7 +108,7 @@ export default function MyCart() {
         // Always use email as guestKey if provided, fallback to phone if not
         let guestKey = 'guest';
         if (email && email.trim()) {
-          guestKey = email.trim().toLowerCase().replace(/[.#$\[\]]/g, "_");
+          guestKey = email.trim().toLowerCase().replace(/[.#$[\]]/g, "_");
         } else if (fullPhoneNumber && fullPhoneNumber.trim()) {
           guestKey = fullPhoneNumber.trim();
         }

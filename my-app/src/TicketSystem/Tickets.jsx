@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import "./Tickete.css";
 import QRCodeComponent from "./QRCodeComponent";
 import QRModal from "./QRModal";
@@ -83,7 +83,6 @@ export default function Tickets() {
             const myKlippekortCol = collection(docSnap.ref, "myKlippekort");
             const klippekortSnap = await getDocs(myKlippekortCol);
             for (const kkDoc of klippekortSnap.docs) {
-              const kk = kkDoc.data();
               // Fetch redeemed tickets for this klippekort
               const redeemedKlippekortCol = collection(kkDoc.ref, "redeemedKlippekort");
               const redeemedSnap = await getDocs(redeemedKlippekortCol);
@@ -171,21 +170,8 @@ export default function Tickets() {
     }
   };
 
-  // Restore countdown state from localStorage when component mounts
-  useEffect(() => {
-    restoreCountdownState();
-    loadRefundedTickets();
-    
-    // Set up interval to check for refund updates every 5 seconds
-    const refundCheckInterval = setInterval(() => {
-      loadRefundedTickets();
-    }, 5000);
-
-    return () => clearInterval(refundCheckInterval);
-  }, []);
-
   // Load refunded tickets from Firestore and localStorage
-  const loadRefundedTickets = async () => {
+  const loadRefundedTickets = useCallback(async () => {
     const refundedItems = JSON.parse(localStorage.getItem("refundedItems") || "{}");
     const refundedOrders = JSON.parse(localStorage.getItem("refundedOrders") || "{}");
     
@@ -232,22 +218,7 @@ export default function Tickets() {
       // User not logged in, use localStorage only
       setRefundedTickets({ items: refundedItems, orders: refundedOrders });
     }
-  };
-
-  // Check if a ticket is refunded
-  const isTicketRefunded = (ticket) => {
-    // Check if entire order is refunded
-    if (refundedTickets.orders && refundedTickets.orders[ticket.orderReference]) {
-      return true;
-    }
-    // Check if specific ticket item is refunded
-    if (refundedTickets.items) {
-      const key = `${ticket.orderReference}_${ticket.name}`;
-      const refundedQty = refundedTickets.items[key] || 0;
-      return refundedQty > 0;
-    }
-    return false;
-  };
+  }, [user]);
 
   // Save countdown state to localStorage
   const saveCountdownState = (countdownData) => {
@@ -255,7 +226,7 @@ export default function Tickets() {
   };
 
   // Restore countdown state from localStorage
-  const restoreCountdownState = () => {
+  const restoreCountdownState = useCallback(() => {
     const saved = localStorage.getItem("ticketCountdowns");
     if (saved) {
       const countdownData = JSON.parse(saved);
@@ -294,8 +265,35 @@ export default function Tickets() {
 
       setCountdowns(restoredCountdowns);
     }
-  };
+  }, []);
 
+  // Restore countdown state from localStorage when component mounts
+  useEffect(() => {
+    restoreCountdownState();
+    loadRefundedTickets();
+    
+    // Set up interval to check for refund updates every 5 seconds
+    const refundCheckInterval = setInterval(() => {
+      loadRefundedTickets();
+    }, 5000);
+
+    return () => clearInterval(refundCheckInterval);
+  }, [loadRefundedTickets, restoreCountdownState]);
+
+  // Check if a ticket is refunded
+  const isTicketRefunded = (ticket) => {
+    // Check if entire order is refunded
+    if (refundedTickets.orders && refundedTickets.orders[ticket.orderReference]) {
+      return true;
+    }
+    // Check if specific ticket item is refunded
+    if (refundedTickets.items) {
+      const key = `${ticket.orderReference}_${ticket.name}`;
+      const refundedQty = refundedTickets.items[key] || 0;
+      return refundedQty > 0;
+    }
+    return false;
+  };
 
 
   // Start countdown for a ticket
