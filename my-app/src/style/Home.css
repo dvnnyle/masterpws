@@ -125,27 +125,80 @@
   text-align: center;
   font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
   font-weight: 400 !important;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
 }
 
 .welcome-card * {
   font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
-  font-weight: 00 !important;
+  font-weight: 400 !important;
 }
 
 .welcome-card.logged-in {
 background: linear-gradient(135deg, #d711ff 0%, #9477fc 50%, #410dff 100%);
 color: white;
+box-shadow: 0 8px 24px rgba(212, 17, 255, 0.25);
+}
+
+/* Enhanced animation state for smoother transitions */
+.welcome-card.animating {
+  animation: welcomeTransition 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes welcomeTransition {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Smooth text content transitions - only animate when transitioning */
+.welcome-card.animating .welcome-title,
+.welcome-card.animating .welcome-desc,
+.welcome-card.animating .front-login-btn {
+  animation: textFadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+}
+
+.welcome-card.animating .welcome-desc {
+  animation-delay: 0.3s;
+}
+
+.welcome-card.animating .front-login-btn {
+  animation-delay: 0.4s;
+}
+
+@keyframes textFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .welcome-title {
   font-size: 1.2rem;
   margin-bottom: 12px;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 2;
 }
 
 .welcome-desc {
   font-size: 1rem;
   margin-top: 0;
   margin-bottom: 4px;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 2;
 }
 
 .front-login-btn {
@@ -160,12 +213,26 @@ color: white;
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 2;
+  transform: translateY(0);
+}
+
+.front-login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .welcome-card.logged-in .front-login-btn {
   background: #ffffff;
   color: rgb(39, 39, 39);
   font-weight: 400;
+}
+
+.welcome-card.logged-in .front-login-btn:hover {
+  background: #f0f0f0;
+  transform: translateY(-2px);
 }
 
 
@@ -242,6 +309,7 @@ background-color: white;
 }
 
 .quick-card,
-.rectangle-card {
-  animation: cardFadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+.rectangle-card,
+.welcome-card {
+  animation: cardFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }

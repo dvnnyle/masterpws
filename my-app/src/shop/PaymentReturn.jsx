@@ -190,15 +190,29 @@ export default function PaymentReturn() {
             // Store månedskort in both subcollection and directly under the order document
             if (item.category === "månedskort" || item.type === "monthlyPass") {
               // Generate unique id for månedskort
-              let baseId = `MK${Math.floor(100000 + Math.random() * 900000)}`;
-              let suffix = '';
-              let attempts = 0;
-              let passId = '';
-              do {
-                suffix = String.fromCharCode(65 + Math.floor(Math.random() * 26)) + String.fromCharCode(65 + Math.floor(Math.random() * 26));
-                passId = baseId + suffix;
-                attempts++;
-              } while (attempts < 10 && (await getDocs(collection(orderDocRef, "myPasses"))).docs.some(doc => doc.id === passId));
+              const generateUniquePassId = async () => {
+                const baseId = `MK${Math.floor(100000 + Math.random() * 900000)}`;
+                let attempts = 0;
+                
+                while (attempts < 10) {
+                  const suffix = String.fromCharCode(65 + Math.floor(Math.random() * 26)) + String.fromCharCode(65 + Math.floor(Math.random() * 26));
+                  const candidateId = baseId + suffix;
+                  attempts++;
+                  
+                  // Check if this ID is unique
+                  const existingPasses = await getDocs(collection(orderDocRef, "myPasses"));
+                  const idExists = existingPasses.docs.some(doc => doc.id === candidateId);
+                  
+                  if (!idExists) {
+                    return candidateId;
+                  }
+                }
+                
+                // Fallback if all attempts failed
+                return baseId + String.fromCharCode(65 + Math.floor(Math.random() * 26)) + String.fromCharCode(65 + Math.floor(Math.random() * 26));
+              };
+              
+              const passId = await generateUniquePassId();
               const passData = {
                 category: item.category || "månedskort",
                 dayDuration: item.dayDuration || 30,

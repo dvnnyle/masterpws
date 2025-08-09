@@ -360,6 +360,26 @@ li.kr-archive-item.archive-card {
   text-align: left;
   padding: 20px;
   animation: modalFadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+/* Add shimmer effect to selected klippekort card */
+.selected-klippekort-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation: shimmer 4s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  50% { left: 100%; }
+  100% { left: 100%; }
 }
 @keyframes cardFadeIn {
   from {
@@ -375,7 +395,8 @@ li.kr-archive-item.archive-card {
   color: #ffffff !important;
   font-size: 1.2rem;
   text-align: left;
-  
+  position: relative;
+  z-index: 2;
 }
 .selected-klippekort-card .kr-card-content {
   position: relative;
@@ -384,6 +405,7 @@ li.kr-archive-item.archive-card {
   color: #ffffff;
   font-weight: 400;
   padding-bottom: 44px;
+  z-index: 2;
 }
 
 .selected-klippekort-card .kr-card-content > div:first-child {
