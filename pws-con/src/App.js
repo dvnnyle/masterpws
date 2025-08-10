@@ -5,6 +5,8 @@ import CustomerOrderList from './pages/adminConsole/CustomerOrderList';
 import NewCoupon from './pages/adminConsole/newCoupon';
 import UserList from './pages/adminConsole/UserList';
 import NewsForm from './pages/adminConsole/NewsForm';
+import AdminLogin from './pages/adminConsole/security/AdminLogin';
+import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
 function AppRoutes() {
@@ -21,11 +23,32 @@ function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="/" element={<AdminDashboard />} />
-      <Route path="/customer-orders/:userId" element={<CustomerOrderList />} />
-      <Route path="/new-coupon" element={<NewCoupon />} />
-      <Route path="/user-list" element={<UserList />} />
-      <Route path="/news-form" element={<NewsForm />} />
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/" element={
+        <ProtectedRoute>
+          <AdminDashboard />
+        </ProtectedRoute>
+      } />
+      <Route path="/customer-orders/:userId" element={
+        <ProtectedRoute>
+          <CustomerOrderList />
+        </ProtectedRoute>
+      } />
+      <Route path="/new-coupon" element={
+        <ProtectedRoute>
+          <NewCoupon />
+        </ProtectedRoute>
+      } />
+      <Route path="/user-list" element={
+        <ProtectedRoute>
+          <UserList />
+        </ProtectedRoute>
+      } />
+      <Route path="/news-form" element={
+        <ProtectedRoute>
+          <NewsForm />
+        </ProtectedRoute>
+      } />
     </Routes>
   );
 }

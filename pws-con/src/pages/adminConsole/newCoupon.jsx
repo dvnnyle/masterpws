@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./newCoupon.css";
+import "../styles/newCoupon.css";
 import { collection, setDoc, getDocs, deleteDoc, doc, serverTimestamp, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { FaGift } from "react-icons/fa";
@@ -135,49 +135,52 @@ function NewCoupon() {
   return (
     <>
       <AdminDashboardNav />
-      <div className="admin-top-card">
-        <h1 className="admin-top-card-title">Adminpanel</h1>
-      </div>
-      <div className="admin-coupons-container">
-        <form onSubmit={handleSubmit} className="admin-coupons-form">
-          <h2 className="admin-coupons-title">Opprett en kupong</h2>
-          <input
-            name="title"
-            placeholder="Kupongtittel"
-            value={form.title}
-            onChange={handleChange}
-            className="admin-coupons-input"
-          />
-          <input
-            name="description"
-            placeholder="Beskrivelse"
-            value={form.description}
-            onChange={handleChange}
-            className="admin-coupons-input"
-          />
-          <input
-            name="expiration"
-            type="date"
-            placeholder="Utløpsdato"
-            value={form.expiration}
-            onChange={handleChange}
-            className="admin-coupons-input"
-            disabled={form.unlimited}
-          />
-          <label style={{ marginTop: 10 }}>
+      <div className="admin-coupons-wrapper">
+        <div className="admin-top-card">
+          <h1 className="admin-top-card-title">Adminpanel</h1>
+        </div>
+        <div className="admin-coupons-container">
+        <div className="admin-table-container">
+          <h2>Opprett en kupong</h2>
+          <form onSubmit={handleSubmit} className="admin-coupons-form">
             <input
-              type="checkbox"
-              name="unlimited"
-              checked={form.unlimited}
+              name="title"
+              placeholder="Kupongtittel"
+              value={form.title}
               onChange={handleChange}
-              style={{ marginRight: 8 }}
+              className="admin-coupons-input"
             />
-            Ubegrenset bruk (ingen utløpsdato)
-          </label>
-          <button type="submit" className="admin-coupons-button">
-            Legg til kupong
-          </button>
-        </form>
+            <input
+              name="description"
+              placeholder="Beskrivelse"
+              value={form.description}
+              onChange={handleChange}
+              className="admin-coupons-input"
+            />
+            <input
+              name="expiration"
+              type="date"
+              placeholder="Utløpsdato"
+              value={form.expiration}
+              onChange={handleChange}
+              className="admin-coupons-input"
+              disabled={form.unlimited}
+            />
+            <label className="admin-checkbox-label">
+              <input
+                type="checkbox"
+                name="unlimited"
+                checked={form.unlimited}
+                onChange={handleChange}
+                className="admin-checkbox"
+              />
+              Ubegrenset bruk (ingen utløpsdato)
+            </label>
+            <button type="submit" className="admin-coupons-button">
+              Legg til kupong
+            </button>
+          </form>
+        </div>
 
         <div className="coupon-counter-card">
           <div className="coupon-counter-title">Kupongstatistikk</div>
@@ -193,8 +196,9 @@ function NewCoupon() {
           </div>
         </div>
         <hr style={{ width: "50%", marginTop: "30px"}} />
-        <h3 className="admin-coupons-list-title">Kuponger</h3>
-        <div className="admin-coupons-list">
+        <div className="admin-coupons-list-container">
+          <h3 className="admin-coupons-list-title">Kuponger</h3>
+          <div className="admin-coupons-list">
           {coupons.map((coupon, idx) => (
             <div
               className="admin-coupon-card"
@@ -238,6 +242,7 @@ function NewCoupon() {
               </div>
             </div>
           ))}
+          </div>
         </div>
 
         {/* Simple Modal */}
@@ -276,6 +281,7 @@ function NewCoupon() {
             </div>
           </div>
         )}
+        </div>
       </div>
     </>
   );

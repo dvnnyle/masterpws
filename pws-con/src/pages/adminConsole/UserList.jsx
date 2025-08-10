@@ -13,7 +13,7 @@ import {
   FiRefreshCw
 } from 'react-icons/fi';
 import AdminDashboardNav from '../comps/AdminDashboardNav';
-import "./UserList.css";
+import "../styles/UserList.css";
 
 export default function UserList() {
   const [users, setUsers] = useState([]);

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./NewsForm.css";
+import "../styles/NewsForm.css";
 import { db } from "../../firebase";
 import { doc, setDoc, deleteDoc, getDocs, collection, query, orderBy } from "firebase/firestore";
 import { FaNewspaper } from "react-icons/fa";
@@ -99,9 +99,14 @@ export default function NewsForm() {
   return (
     <>
       <AdminDashboardNav />
-      <div>
-        <form onSubmit={handleSubmit} className="news-form">
-          <h2>Publiser en nyhet</h2>
+      <div className="admin-news-wrapper">
+        <div className="admin-top-card">
+          <h1 className="admin-top-card-title">Adminpanel</h1>
+        </div>
+        <div className="admin-news-container">
+          <div className="admin-table-container">
+            <h2>Publiser en nyhet</h2>
+            <form onSubmit={handleSubmit} className="news-form">
 
           <input
             type="text"
@@ -123,10 +128,13 @@ export default function NewsForm() {
             required
           />
 
-          <button type="submit">Publiser</button>
-        </form>
+            <button type="submit">Publiser</button>
+          </form>
+        </div>
 
-        <div className="posts-list">
+        <div className="admin-news-list-container">
+          <h3 className="admin-news-list-title">Publiserte nyheter</h3>
+          <div className="posts-list">
           {posts.length === 0 && <p>Ingen nyheter publisert enda.</p>}
 
           {posts.map((post, index) => (
@@ -166,6 +174,7 @@ export default function NewsForm() {
               </div>
             </div>
           ))}
+          </div>
         </div>
 
         {modalOpen && modalPost && (
@@ -186,6 +195,7 @@ export default function NewsForm() {
             </div>
           </div>
         )}
+        </div>
       </div>
     </>
   );

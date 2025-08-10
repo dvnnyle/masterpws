@@ -61,6 +61,10 @@ if (!admin.apps.length) {
 const firestore = admin.firestore();
 app.use(express.json());
 
+// Email routes
+const emailRoutes = require('./routes/email');
+app.use('/api/email', emailRoutes);
+
 // Load env variables - TEST URLS
 const {
   VIPPS_CLIENT_ID,

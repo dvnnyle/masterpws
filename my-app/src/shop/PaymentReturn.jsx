@@ -5,6 +5,7 @@ import { db, auth } from "../firebase";
 import { doc, collection, addDoc, getDocs, updateDoc, setDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { captureVippsPayment } from "../vipps/vipps";
+import { sendReceiptEmail } from "../tools/sendReceiptEmail";
 
 export default function PaymentReturn() {
   const [orderReference, setOrderReference] = useState("");
@@ -23,11 +24,20 @@ export default function PaymentReturn() {
 
   // Load order info from localStorage on mount
   useEffect(() => {
+    console.log('📦 PaymentReturn: Loading order info from localStorage');
     const storedReference = localStorage.getItem("orderReference");
     const storedPhone = localStorage.getItem("phoneNumber");
     const storedName = localStorage.getItem("buyerName");
     const storedEmail = localStorage.getItem("email");
     const storedCart = localStorage.getItem("cartItems");
+
+    console.log('📦 Stored data:', {
+      reference: storedReference,
+      phone: storedPhone,
+      name: storedName,
+      email: storedEmail,
+      cartItems: storedCart ? JSON.parse(storedCart).length + ' items' : 'none'
+    });
 
     if (storedReference) setOrderReference(storedReference);
     if (storedPhone) setPhoneNumber(storedPhone);
@@ -35,10 +45,12 @@ export default function PaymentReturn() {
     if (storedEmail) setEmail(storedEmail);
 
     if (storedCart) {
+      console.log('🛒 Processing cart items...');
       const parsedCart = JSON.parse(storedCart);
       setCartItems(parsedCart);
 
       const now = new Date().toISOString();
+      console.log('⏰ Order timestamp:', now);
 
       // Update cart items with orderReference and datePurchased
       const updatedCart = parsedCart.map(item => {
@@ -62,6 +74,7 @@ export default function PaymentReturn() {
         o => o.orderReference === storedReference
       );
       if (!alreadyExists) {
+        console.log('💾 Storing order in localStorage...');
         const newOrder = {
           orderReference: storedReference || "",
           buyerName: storedName || "",
@@ -75,6 +88,9 @@ export default function PaymentReturn() {
           ),
         };
         localStorage.setItem("orders", JSON.stringify([newOrder, ...storedOrders]));
+        console.log('✅ Order stored in localStorage');
+      } else {
+        console.log('⚠️ Order already exists in localStorage');
       }
     }
   }, []);
@@ -82,6 +98,7 @@ export default function PaymentReturn() {
   // Note: Auto-capture removed - payments must be manually captured in admin panel
   useEffect(() => {
     if (orderReference) {
+      console.log('🔗 Setting pspReference for order:', orderReference);
       // Set a placeholder pspReference so the order can be saved
       // The actual pspReference will be updated when payment is manually captured
       setPspReference(orderReference);
@@ -92,7 +109,10 @@ export default function PaymentReturn() {
   useEffect(() => {
     if (!pspReference) return;
 
+    console.log('🔥 Starting Firestore save process for pspReference:', pspReference);
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      console.log('👤 Auth state changed. User:', user ? user.email : 'No user');
       const storedReference = localStorage.getItem("orderReference");
       const storedPhone = localStorage.getItem("phoneNumber");
       const storedName = localStorage.getItem("buyerName");
@@ -102,8 +122,10 @@ export default function PaymentReturn() {
       const now = new Date().toISOString();
 
       if (!user) {
+        console.log('👻 Processing guest order...');
         // Guest order: store in /guests/{guestKey}/NewGuestOrders/{orderReference}
         if (storedCart && storedReference) {
+          console.log('💾 Saving guest order to Firestore...');
           const parsedCart = JSON.parse(storedCart);
           // Use email as guestKey if available, else fallback to phone, else 'guest'
           let guestKey = 'guest';
@@ -112,6 +134,7 @@ export default function PaymentReturn() {
           } else if (storedPhone && storedPhone.trim()) {
             guestKey = storedPhone.trim().replace(/[.#$[\]]/g, '_');
           }
+          console.log('🔑 Guest key:', guestKey);
           const guestDocRef = doc(db, "guests", guestKey);
           const guestOrderRef = doc(db, "guests", guestKey, "NewGuestOrders", storedReference);
           try {
@@ -134,6 +157,46 @@ export default function PaymentReturn() {
               totalPrice: parsedCart.reduce((sum, item) => sum + item.price * item.quantity, 0),
             });
             console.log('✅ Guest order saved to Firestore:', guestKey, storedReference);
+            
+            // Send email to guest after saving order
+            if (storedEmail) {
+              console.log('📧 Attempting to send receipt email to guest...');
+              console.log('📧 Guest email details:', {
+                recipient: storedEmail,
+                orderNumber: storedReference,
+                totalAmount: parsedCart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+                itemCount: parsedCart.length,
+                guestKey: guestKey
+              });
+              
+              try {
+                const guestEmailData = {
+                  orderNumber: storedReference,
+                  purchaseDate: now,
+                  totalAmount: parsedCart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+                  items: parsedCart,
+                  buyerName: storedName,
+                  phoneNumber: storedPhone,
+                  email: storedEmail,
+                  pspReference: storedPspReference
+                };
+                console.log('📧 Guest email data:', guestEmailData);
+                
+                const guestEmailResult = await sendReceiptEmail(storedEmail, guestEmailData);
+                console.log('📧 Guest email result:', guestEmailResult);
+
+                if (guestEmailResult.success) {
+                  console.log('✅ Guest receipt email sent successfully to:', storedEmail);
+                } else {
+                  console.error('❌ Failed to send guest receipt email:', guestEmailResult.error);
+                }
+              } catch (guestEmailError) {
+                console.error('❌ Error sending guest receipt email:', guestEmailError);
+                console.error('❌ Guest email error details:', guestEmailError.message);
+              }
+            } else {
+              console.log('⚠️ No email address for guest, skipping receipt email');
+            }
           } catch (err) {
             console.error('❌ Failed to save guest order/profile:', err);
           }
@@ -142,6 +205,7 @@ export default function PaymentReturn() {
       }
 
       if (storedCart && storedReference) {
+        console.log('👤 Processing authenticated user order...');
         const parsedCart = JSON.parse(storedCart);
         const now = new Date().toISOString();
 
@@ -160,28 +224,46 @@ export default function PaymentReturn() {
           captureStatus: "PENDING", // Will be updated to CAPTURED after auto-capture
         };
 
+        console.log('📋 New order object:', {
+          reference: newOrder.orderReference,
+          email: newOrder.email,
+          totalPrice: newOrder.totalPrice,
+          itemCount: parsedCart.length
+        });
+
         try {
+          console.log('🔥 Connecting to Firestore...');
           const userDocRef = doc(db, "users", user.email.toLowerCase());
           const ordersColRef = collection(userDocRef, "newOrders");
 
+          console.log('🔍 Checking for existing orders...');
           const querySnapshot = await getDocs(ordersColRef);
           const alreadyExists = querySnapshot.docs.some(
             (doc) => doc.data().orderReference === newOrder.orderReference
           );
 
+          console.log('📊 Order check result:', {
+            alreadyExists,
+            existingOrdersCount: querySnapshot.docs.length
+          });
+
           let orderDocRef;
           if (!alreadyExists) {
+            console.log('➕ Creating new order document...');
             orderDocRef = await addDoc(ordersColRef, newOrder);
             console.log("✅ Order added to newOrders subcollection!");
           } else {
+            console.log('🔄 Using existing order document...');
             // Find the existing order docRef
             orderDocRef = querySnapshot.docs.find(
               (doc) => doc.data().orderReference === newOrder.orderReference
             ).ref;
           }
 
+          console.log('🎫 Processing cart items for subcollections...');
           // Store tickets and klippekort in their own subcollections
           for (const item of parsedCart) {
+            console.log('📦 Processing item:', item.name, 'Category:', item.category);
             if (item.category === "klippekort" && item.type === "stampCardTicket") {
               await setDoc(doc(orderDocRef, "myKlippekort", item.id), item);
             } else if (item.category === "lek" && item.type === "ticket") {
@@ -236,6 +318,53 @@ export default function PaymentReturn() {
             }
           }
 
+          // SEND EMAIL IMMEDIATELY AFTER ORDER IS SAVED (regardless of capture status)
+          if (storedEmail && !alreadyExists) {
+            console.log('📧 Attempting to send receipt email immediately after order save...');
+            console.log('📧 Email trigger conditions:', {
+              hasEmail: !!storedEmail,
+              email: storedEmail,
+              isNewOrder: !alreadyExists,
+              orderRef: storedReference
+            });
+            
+            try {
+              console.log('📧 Preparing email data...');
+              const emailData = {
+                orderNumber: storedReference,
+                purchaseDate: now,
+                totalAmount: newOrder.totalPrice,
+                items: parsedCart,
+                buyerName: storedName,
+                phoneNumber: storedPhone,
+                email: storedEmail,
+                pspReference: storedPspReference
+              };
+              console.log('📧 Email data prepared:', emailData);
+              
+              console.log('📧 Calling sendReceiptEmail function...');
+              const emailResult = await sendReceiptEmail(storedEmail, emailData);
+              console.log('📧 Email function returned:', emailResult);
+
+              if (emailResult.success) {
+                console.log('✅ Immediate receipt email sent successfully to:', storedEmail);
+              } else {
+                console.error('❌ Failed to send immediate receipt email:', emailResult.error);
+              }
+            } catch (emailError) {
+              console.error('❌ Error sending immediate receipt email:', emailError);
+              console.error('❌ Email error details:', emailError.message);
+              console.error('❌ Email error stack:', emailError.stack);
+            }
+          } else {
+            console.log('⚠️ Email not sent because:', {
+              hasEmail: !!storedEmail,
+              email: storedEmail,
+              isNewOrder: !alreadyExists,
+              reason: !storedEmail ? 'No email address' : 'Order already exists'
+            });
+          }
+
           // NOW trigger auto-capture after order is saved
           if (!alreadyExists) {
             setTimeout(async () => {
@@ -254,13 +383,59 @@ export default function PaymentReturn() {
                   pspReference: captureResult.pspReference || storedReference
                 });
                 console.log("✅ Auto-capture: Updated order status to CAPTURED");
+
+                // Send receipt email after successful capture
+                if (storedEmail) {
+                  try {
+                    console.log('📧 Initiating receipt email send after capture...');
+                    console.log('📧 Post-capture email details:', {
+                      recipient: storedEmail,
+                      orderNumber: storedReference,
+                      totalAmount: newOrder.totalPrice,
+                      itemCount: parsedCart.length,
+                      captureSuccessful: true
+                    });
+                    
+                    const postCaptureEmailData = {
+                      orderNumber: storedReference,
+                      purchaseDate: now,
+                      totalAmount: newOrder.totalPrice,
+                      items: parsedCart,
+                      buyerName: storedName,
+                      phoneNumber: storedPhone,
+                      email: storedEmail,
+                      pspReference: captureResult.pspReference || storedReference,
+                      paymentMethod: "Vipps"
+                    };
+                    console.log('📧 Post-capture email data:', postCaptureEmailData);
+                    
+                    const emailResult = await sendReceiptEmail(storedEmail, postCaptureEmailData);
+                    console.log('📧 Post-capture email result:', emailResult);
+
+                    if (emailResult.success) {
+                      console.log('✅ Receipt email sent successfully to:', storedEmail);
+                    } else {
+                      console.error('❌ Failed to send receipt email:', emailResult.error);
+                    }
+                  } catch (emailError) {
+                    console.error('❌ Error sending receipt email:', emailError);
+                    console.error('❌ Post-capture email error details:', emailError.message);
+                  }
+                } else {
+                  console.log('⚠️ No email address found, skipping receipt email');
+                  console.log('⚠️ Email check details:', {
+                    storedEmail: storedEmail,
+                    hasStoredEmail: !!storedEmail
+                  });
+                }
               } catch (captureError) {
                 console.error('❌ Auto-capture failed:', captureError);
               }
             }, 2000); // 2 second delay after order is saved
           }
         } catch (err) {
-          console.error("Failed to add order to newOrders subcollection:", err);
+          console.error("❌ Failed to add order to newOrders subcollection:", err);
+          console.error("❌ Error details:", err.message);
         }
       }
     });
