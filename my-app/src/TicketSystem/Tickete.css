@@ -3,6 +3,7 @@
   border-radius: 25px;
   margin: 0 auto; /* centers horizontally */
   max-width: 500px; /* optional, for a nice width */
+  margin-bottom: 120px;
 }
 
 .tickets-page h1 {
@@ -53,7 +54,7 @@
 
 .status-badge {
   padding: 6px 12px;
-  border-radius: 0 25px 0 16px;
+  border-radius: 25px;
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;

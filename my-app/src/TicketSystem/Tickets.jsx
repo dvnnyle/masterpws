@@ -397,112 +397,187 @@ export default function Tickets() {
         <div style={{ textAlign: 'center', padding: '40px' }}>
           <p>Laster billetter...</p>
         </div>
-      ) : tickets.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '40px' }}>
-          <p>Ingen billetter funnet.</p>
-          {!user && <p>Logg inn for å se dine kjøpte billetter.</p>}
-        </div>
       ) : (
-        <ul className="ticket-list">
-        {tickets
-          .filter(ticket =>
-            selectedTab === 'ordinary'
-              ? ticket.category === 'lek' && ticket.type === 'ticket'
-              : ticket.category === 'klippekort' && ticket.type === 'stampCardTicket'
+        selectedTab === 'ordinary' ? (
+          tickets.filter(ticket => ticket.category === 'lek' && ticket.type === 'ticket').length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '40px' }}>
+              <p>Ingen vanlige billetter funnet.</p>
+              {!user && <p>Logg inn for å se dine kjøpte billetter.</p>}
+            </div>
+          ) : (
+            <ul className="ticket-list">
+              {tickets
+                .filter(ticket => ticket.category === 'lek' && ticket.type === 'ticket')
+                .map(ticket => (
+                  <li key={ticket.id} className={`ticket-item ${isTicketRefunded(ticket) ? 'refunded-ticket' : ''}`}>
+                    <div className="ticket-content">
+                      <div className="ticket-status">
+                        {(() => {
+                          if (isTicketRefunded(ticket)) {
+                            return <span className="status-badge refunded">Refundert</span>;
+                          }
+                          const countdown = countdowns[ticket.id];
+                          if (countdown === undefined) {
+                            return <span className="status-badge not-activated">Ikke aktivert</span>;
+                          } else if (countdown > 0) {
+                            return <span className="status-badge active">Aktiv</span>;
+                          } else {
+                            return <span className="status-badge time-over">Tid over</span>;
+                          }
+                        })()}
+                      </div>
+                      <strong>{(ticket.name || '').replace(/\s*\(\d+\s*klipp( igjen)?\)/gi, '').trim()}</strong>
+                      {ticket.customerName && (
+                        <div>
+                          Kunde: <span>{ticket.customerName}</span>
+                        </div>
+                      )}
+                      <div>
+                        <>Ordre-ID: <span>{ticket.orderReference || "Ukjent"}</span></>
+                      </div>
+                      <div>
+                        Kjøpt:{" "}
+                        <span>
+                          {ticket.datePurchased
+                            ? (() => {
+                                const d = new Date(ticket.datePurchased);
+                                const day = String(d.getDate()).padStart(2, "0");
+                                const month = String(d.getMonth() + 1).padStart(2, "0");
+                                const year = String(d.getFullYear()).slice(-2);
+                                const hour = String(d.getHours()).padStart(2, "0");
+                                const min = String(d.getMinutes()).padStart(2, "0");
+                                return `${day}.${month}.${year} kl.${hour}:${min}`;
+                              })()
+                            : "Ukjent"}
+                        </span>
+                      </div>
+                      <div className="ticket-duration">
+                        Varighet: {ticket.duration ? formatDuration(ticket.duration) : "Ukjent"}
+                      </div>
+                      {countdowns[ticket.id] !== undefined ? (
+                        <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 12 }}>
+                          <span style={{ fontWeight: 600 }}>Tid igjen:</span>
+                          <h3 className="ticket-timer" style={{ margin: 0 }}>
+                            {formatTime(countdowns[ticket.id])}
+                          </h3>
+                        </div>
+                      ) : (
+                        <button
+                          className="start-ticket-btn"
+                          onClick={() => startCountdown(ticket)}
+                          style={{ marginTop: 10 }}
+                        >
+                          Start nedtelling
+                        </button>
+                      )}
+                      <QRCodeComponent 
+                        ticket={ticket} 
+                        isActive={!isTicketRefunded(ticket) && countdowns[ticket.id] !== undefined && countdowns[ticket.id] > 0}
+                        onShowQR={() => openQRModal(ticket)}
+                      />
+                    </div>
+                  </li>
+                ))}
+            </ul>
           )
-          .map(ticket => (
-            <li key={ticket.id} className={`ticket-item ${isTicketRefunded(ticket) ? 'refunded-ticket' : ''} ${ticket.category === 'klippekort' ? 'klippekort-ticket' : ''}`}>
-              <div className="ticket-content">
-                <div className="ticket-status">
-                  {(() => {
-                    if (isTicketRefunded(ticket)) {
-                      return <span className="status-badge refunded">Refundert</span>;
-                    }
-                    const countdown = countdowns[ticket.id];
-                    if (countdown === undefined) {
-                      return <span className="status-badge not-activated">Ikke aktivert</span>;
-                    } else if (countdown > 0) {
-                      return <span className="status-badge active">Aktiv</span>;
-                    } else {
-                      return <span className="status-badge time-over">Tid over</span>;
-                    }
-                  })()}
-                </div>
-                
-                {/* Remove (X klipp) or (X klipp igjen) from ticket name for display */}
-                {ticket.category === 'klippekort' && ticket.usedStamps ? (
-                  <strong>
-                    {(ticket.name || '').replace(/\s*\(\d+\s*klipp( igjen)?\)/gi, '').trim()}
-                    <span style={{ fontSize: 13, color: '#e0eaff', fontWeight: 400, marginLeft: 8 }}>
-                      - {ticket.usedStamps} klipp brukt
-                    </span>
-                  </strong>
-                ) : (
-                  <strong>{(ticket.name || '').replace(/\s*\(\d+\s*klipp( igjen)?\)/gi, '').trim()}</strong>
-                )}
-                {ticket.customerName && (
-                  <div>
-                    Kunde: <span>{ticket.customerName}</span>
-                  </div>
-                )}
-                <div>
-                  {ticket.category === 'klippekort' && ticket.firestorePath && ticket.firestorePath.includes('/myKlippekort/KLK') ? (
-                    <>Klippekort-ID: <span>{ticket.firestorePath.match(/myKlippekort\/(KLK\w+)/)?.[1] || ticket.id}</span></>
-                  ) : ticket.category === 'klippekort' && ticket.id && (String(ticket.id).startsWith('KLK') || ticket.id.length > 8) ? (
-                    <>Klippekort-ID: <span>{ticket.id}</span></>
-                  ) : (
-                    <>Ordre-ID: <span>{ticket.orderReference || "Ukjent"}</span></>
-                  )}
-                </div>
-                <div>
-                  Kjøpt:{" "}
-                  <span>
-                    {ticket.datePurchased
-                      ? (() => {
-                          const d = new Date(ticket.datePurchased);
-                          const day = String(d.getDate()).padStart(2, "0");
-                          const month = String(d.getMonth() + 1).padStart(2, "0");
-                          const year = String(d.getFullYear()).slice(-2);
-                          const hour = String(d.getHours()).padStart(2, "0");
-                          const min = String(d.getMinutes()).padStart(2, "0");
-                          return `${day}.${month}.${year} kl.${hour}:${min}`;
-                        })()
-                      : "Ukjent"}
-                  </span>
-                </div>
-
-                <div className="ticket-duration">
-                  Varighet: {ticket.duration ? formatDuration(ticket.duration) : "Ukjent"}
-                </div>
-
-                {/* Only show countdown when started */}
-                {countdowns[ticket.id] !== undefined ? (
-                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 12 }}>
-                    <span style={{ fontWeight: 600 }}>Tid igjen:</span>
-                    <h3 className="ticket-timer" style={{ margin: 0 }}>
-                      {formatTime(countdowns[ticket.id])}
-                    </h3>
-                  </div>
-                ) : (
-                  <button
-                    className="start-ticket-btn"
-                    onClick={() => startCountdown(ticket)}
-                    style={{ marginTop: 10 }}
-                  >
-                    Start nedtelling
-                  </button>
-                )}
-
-                {/* QR Code Button for each ticket - moved below countdown/button */}
-                <QRCodeComponent 
-                  ticket={ticket} 
-                  isActive={!isTicketRefunded(ticket) && countdowns[ticket.id] !== undefined && countdowns[ticket.id] > 0}
-                  onShowQR={() => openQRModal(ticket)}
-                />
-              </div>
-            </li>
-          ))}
-      </ul>
+        ) : (
+          tickets.filter(ticket => ticket.category === 'klippekort' && ticket.type === 'stampCardTicket' && typeof ticket.usedStamps === 'number' && ticket.usedStamps > 0).length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '40px' }}>
+              <p>Ingen klippekort-billetter funnet.</p>
+              {!user && <p>Logg inn for å se dine kjøpte billetter.</p>}
+            </div>
+          ) : (
+            <ul className="ticket-list">
+              {tickets
+                .filter(ticket => ticket.category === 'klippekort' && ticket.type === 'stampCardTicket' && typeof ticket.usedStamps === 'number' && ticket.usedStamps > 0)
+                .map(ticket => (
+                  <li key={ticket.id} className={`ticket-item klippekort-ticket ${isTicketRefunded(ticket) ? 'refunded-ticket' : ''}`}>
+                    <div className="ticket-content">
+                      <div className="ticket-status">
+                        {(() => {
+                          if (isTicketRefunded(ticket)) {
+                            return <span className="status-badge refunded">Refundert</span>;
+                          }
+                          const countdown = countdowns[ticket.id];
+                          if (countdown === undefined) {
+                            return <span className="status-badge not-activated">Ikke aktivert</span>;
+                          } else if (countdown > 0) {
+                            return <span className="status-badge active">Aktiv</span>;
+                          } else {
+                            return <span className="status-badge time-over">Tid over</span>;
+                          }
+                        })()}
+                      </div>
+                      {ticket.usedStamps ? (
+                        <strong>
+                          {(ticket.name || '').replace(/\s*\(\d+\s*klipp( igjen)?\)/gi, '').trim()}
+                          <span style={{ fontSize: 13, color: '#e0eaff', fontWeight: 400, marginLeft: 8 }}>
+                            - {ticket.usedStamps} klipp brukt
+                          </span>
+                        </strong>
+                      ) : (
+                        <strong>{(ticket.name || '').replace(/\s*\(\d+\s*klipp( igjen)?\)/gi, '').trim()}</strong>
+                      )}
+                      {ticket.customerName && (
+                        <div>
+                          Kunde: <span>{ticket.customerName}</span>
+                        </div>
+                      )}
+                      <div>
+                        {ticket.firestorePath && ticket.firestorePath.includes('/myKlippekort/KLK') ? (
+                          <>Klippekort-ID: <span>{ticket.firestorePath.match(/myKlippekort\/(KLK\w+)/)?.[1] || ticket.id}</span></>
+                        ) : ticket.id && (String(ticket.id).startsWith('KLK') || ticket.id.length > 8) ? (
+                          <>Klippekort-ID: <span>{ticket.id}</span></>
+                        ) : (
+                          <>Ordre-ID: <span>{ticket.orderReference || "Ukjent"}</span></>
+                        )}
+                      </div>
+                      <div>
+                        Kjøpt:{" "}
+                        <span>
+                          {ticket.datePurchased
+                            ? (() => {
+                                const d = new Date(ticket.datePurchased);
+                                const day = String(d.getDate()).padStart(2, "0");
+                                const month = String(d.getMonth() + 1).padStart(2, "0");
+                                const year = String(d.getFullYear()).slice(-2);
+                                const hour = String(d.getHours()).padStart(2, "0");
+                                const min = String(d.getMinutes()).padStart(2, "0");
+                                return `${day}.${month}.${year} kl.${hour}:${min}`;
+                              })()
+                            : "Ukjent"}
+                        </span>
+                      </div>
+                      <div className="ticket-duration">
+                        Varighet: {ticket.duration ? formatDuration(ticket.duration) : "Ukjent"}
+                      </div>
+                      {countdowns[ticket.id] !== undefined ? (
+                        <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 12 }}>
+                          <span style={{ fontWeight: 600 }}>Tid igjen:</span>
+                          <h3 className="ticket-timer" style={{ margin: 0 }}>
+                            {formatTime(countdowns[ticket.id])}
+                          </h3>
+                        </div>
+                      ) : (
+                        <button
+                          className="start-ticket-btn"
+                          onClick={() => startCountdown(ticket)}
+                          style={{ marginTop: 10 }}
+                        >
+                          Start nedtelling
+                        </button>
+                      )}
+                      <QRCodeComponent 
+                        ticket={ticket} 
+                        isActive={!isTicketRefunded(ticket) && countdowns[ticket.id] !== undefined && countdowns[ticket.id] > 0}
+                        onShowQR={() => openQRModal(ticket)}
+                      />
+                    </div>
+                  </li>
+                ))}
+            </ul>
+          )
+        )
       )}
 
       {/* QR Modal */}
