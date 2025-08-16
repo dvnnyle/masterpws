@@ -1,3 +1,38 @@
+/* Center tab buttons horizontally */
+.tab-btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+/* Tab button styling for tickets tabs */
+.tab-btn {
+  
+  background: #eaf6ee;
+  color: #000000;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  flex: 1 1 0;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(32, 177, 76, 0.06);
+  transition: background 0.2s, color 0.2s;
+  max-width: 100%;
+  
+}
+.tab-btn.active {
+  background: linear-gradient(90deg, #ffc400 0%, #17913a 100%);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(32, 177, 76, 0.12);
+}
+.tab-btn:not(.active):hover {
+  background: #d4edda;
+  color: #17913a;
+}
 .tickets-page {
   width: calc(100% - 20px);
   border-radius: 25px;
@@ -27,6 +62,8 @@
   transition: box-shadow 0.2s;
   position: relative;
   margin-bottom: 10px;
+    animation: cardFadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
 }
 
 .ticket-item.klippekort-ticket {
@@ -172,5 +209,17 @@
   }
   .ticket-item {
     padding: 25px 25px;
+  }
+}
+
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }

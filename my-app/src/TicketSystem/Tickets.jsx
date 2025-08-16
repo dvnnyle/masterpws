@@ -378,7 +378,7 @@ export default function Tickets() {
   return (
     <div className="tickets-page">
       <h1>Dine Billetter</h1>
-      <div style={{ display: 'flex', gap: 16, marginBottom: 24 }}>
+      <div className="tab-btn-group">
         <button
           className={selectedTab === 'ordinary' ? 'tab-btn active' : 'tab-btn'}
           onClick={() => setSelectedTab('ordinary')}
